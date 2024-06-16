@@ -1,4 +1,4 @@
-import { LootContext } from "../../lootContext/predicate";
+import { LootContext } from "../lootContext/predicate";
 
 export enum EffectComponent {
   //Value Effects
@@ -204,6 +204,6 @@ export interface EffectLootContextMapping {
   [EffectComponent.ProjectileSpawned]: LootContext.EnchantedEntity;
   [EffectComponent.PostAttack]: LootContext.EnchantedDamage;
 
-  [EffectComponent.LocationChanged]: LootContext.EnchantedEntity;
+  [EffectComponent.LocationChanged]: LootContext.EnchantedLocation;
   [EffectComponent.DamageImmunity]: LootContext.EnchantedDamage;
 }

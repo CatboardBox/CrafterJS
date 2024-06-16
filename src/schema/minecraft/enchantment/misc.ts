@@ -1,5 +1,5 @@
-import { LootContextSubtypeMapping } from "../../lootContext/predicate";
-import { IPredicate } from "../../predicate";
+import { LootContextSubtypeMapping } from "../lootContext/predicate";
+import { IPredicate } from "../predicate";
 import { EffectComponent, EffectLootContextMapping } from "./effectComponent";
 
 type SubsetOfEnum<T, U extends T = T> = U;

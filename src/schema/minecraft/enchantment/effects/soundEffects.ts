@@ -1,6 +1,6 @@
 import { ISoundEventRef } from "../../ref";
-import { EffectComponent } from "./effectComponent";
-import { IEffectComponentMappingType } from "./misc";
+import { EffectComponent } from "../effectComponent";
+import { IEffectComponentMappingType } from "../misc";
 
 export interface ICrossbowChargeSounds {
   start?: ISoundEventRef;

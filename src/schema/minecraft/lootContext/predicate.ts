@@ -45,6 +45,7 @@ type DefaultLootContextSubtypeMapping = {
   [LootContext.EnchantedLocation]: [
     SubLootContext.ThisEntity,
     SubLootContext.Origin,
+    SubLootContext.EnchantmentLevel,
     SubLootContext.EnchantmentActiveStatus
   ];
   [LootContext.EnchantedEntity]: [

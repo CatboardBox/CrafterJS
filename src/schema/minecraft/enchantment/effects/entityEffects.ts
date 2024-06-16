@@ -1,8 +1,8 @@
 import { FullVector3 } from "../../generic";
-import { EffectComponent } from "./effectComponent";
+import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
-import { RelativeEntity } from "./entity";
-import { IEffectComponentMappingType } from "./misc";
+import { RelativeEntity } from "../entity";
+import { IEffectComponentMappingType } from "../misc";
 import { IFunctionRef, IParticleRef, ISoundEventRef } from "../../ref";
 
 export enum EntityEffectsType {

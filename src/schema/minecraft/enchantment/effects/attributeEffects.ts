@@ -1,6 +1,6 @@
-import { EffectComponent } from "./effectComponent";
+import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
-import { IEffectComponentMappingType } from "./misc";
+import { IEffectComponentMappingType } from "../misc";
 
 export enum AttributesOperation {
   Add = "add_value",

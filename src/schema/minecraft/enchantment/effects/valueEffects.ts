@@ -1,6 +1,6 @@
-import { EnchantedEntity } from "./entity";
-import { EffectComponent } from "./effectComponent";
-import { IEffectComponentMappingType } from "./misc";
+import { EnchantedEntity } from "../entity";
+import { EffectComponent } from "../effectComponent";
+import { IEffectComponentMappingType } from "../misc";
 
 export enum ValueEffectTypes {
   /**
