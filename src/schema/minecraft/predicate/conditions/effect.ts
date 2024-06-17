@@ -1,4 +1,4 @@
-import { IMobEffectRef } from "../../ref";
+import {  IRef, ResourceType } from "../../ref";
 import { INumberCondition } from "./misc";
 
 export interface IEffectCondition {
@@ -22,5 +22,5 @@ export interface IEffectCondition {
   visible?: boolean;
 }
 export interface IEffectConditions {
-  [key: IMobEffectRef]: IEffectCondition;
+  [key: IRef[ResourceType.MobEffects]]: IEffectCondition;
 }

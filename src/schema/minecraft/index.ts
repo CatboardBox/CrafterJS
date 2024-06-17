@@ -6,3 +6,4 @@ export * from "./recipes";
 export * from "./predicate";
 export * from "./misc";
 export * from "./ref";
+export * from "./tag";

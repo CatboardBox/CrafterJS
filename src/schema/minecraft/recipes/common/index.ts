@@ -1,4 +1,4 @@
-import { IItemRef, IItemTagRef } from "../../ref";
+import {IRef,ITagRef, ResourceType, TagType } from "../../ref";
 
 export enum RecipeType {
   Blasting = "minecraft:blasting",
@@ -15,10 +15,10 @@ export enum RecipeType {
 
 export type IRecipeIngredientSingle =
   | {
-      item: IItemRef;
+      item: IRef[ResourceType.Item];
     }
   | {
-      tag: IItemTagRef;
+      tag: ITagRef[TagType.Item];
     };
 
 export type IRecipeIngredient =
@@ -31,7 +31,7 @@ export interface IRecipeBase {
 }
 
 export interface IRecipeResultSingle {
-  id: IItemRef;
+  id: IRef[ResourceType.Item];
   components?: unknown; //todo
 }
 

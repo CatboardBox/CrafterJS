@@ -1,6 +1,6 @@
 import {
   IRecipeBase,
-  IRecipeRef,
+  IRef,
   RecipeCategory,
   ResourceType,
 } from "../../schema";
@@ -9,7 +9,7 @@ import { Namespace } from "../namespace";
 import { getCategory, getCategoryGroup } from "./category";
 
 export class Recipe<T extends IRecipeBase> extends ContentGenerator<
-  IRecipeRef,
+  IRef[ResourceType.Recipe],
   T
 > {
   constructor(params: {

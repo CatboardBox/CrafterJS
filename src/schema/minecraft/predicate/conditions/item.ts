@@ -1,6 +1,7 @@
-import { IEnchantmentRef, IEnchantmentTagRef, IItemRef, IItemTagRef } from "../../ref";
+import {  IRef, ITagRef, ResourceType } from "../../ref";
 import { AttributesOperation } from "../../enchantment";
 import { Slot } from "../../generic";
+import { TagType } from "../../ref";
 import { INumberCondition } from "./misc";
 
 interface IItemComponent {
@@ -8,7 +9,7 @@ interface IItemComponent {
 }
 
 export interface IItemCondition {
-  items?: IItemRef | IItemRef[] | IItemTagRef;
+  items?: IRef[ResourceType.Item] | IRef[ResourceType.Item][] | ITagRef[TagType.Item];
   count?: INumberCondition;
   components?: IItemComponent;
   predicate?: IItemSubPredicate;
@@ -66,7 +67,7 @@ export interface IItemSubPredicate {
   };
   [IItemSubPredicateType.Enchantments]?: {
     enchantments: {
-      enchantment?: IEnchantmentRef | IEnchantmentRef[] | IEnchantmentTagRef;
+      enchantment?: IRef[ResourceType.Enchantment] | IRef[ResourceType.Enchantment][] | ITagRef[TagType.Enchantment];
       levels: INumberCondition;
     }[];
   };

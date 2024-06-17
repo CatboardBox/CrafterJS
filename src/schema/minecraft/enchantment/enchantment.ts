@@ -1,10 +1,5 @@
-import {
-  IEnchantmentRef,
-  IEnchantmentTagRef,
-  IItemRef,
-  IItemTagRef,
-} from "../ref";
 import { IDescription, RangeInclusive } from "../generic";
+import { IRef, ITagRef, ResourceType, TagType } from "../ref";
 import { IEffectComponent } from "./effects";
 
 interface IXpCost {
@@ -34,15 +29,15 @@ export interface IEnchantment {
    *
    * Defaults to an empty list.
    */
-  exclusive_set?: IEnchantmentRef | IEnchantmentRef[] | IEnchantmentTagRef;
+  exclusive_set?: IRef[ResourceType.Enchantment] | IRef[ResourceType.Enchantment][] | ITagRef[TagType.Enchantment];
   /**
    * Items on which this enchantment can be applied using an anvil or using the `/enchant` command.
    */
-  supported_items: IItemRef | IItemRef[] | IItemTagRef;
+  supported_items: IRef[ResourceType.Item] | IRef[ResourceType.Item][] | ITagRef[TagType.Item];
   /**
    *  Items for which this enchantment appears in an `enchanting table`.
    */
-  primary_items?: IItemRef | IItemRef[] | IItemTagRef;
+  primary_items?: IRef[ResourceType.Item] | IRef[ResourceType.Item][] | ITagRef[TagType.Item];
   /**
    * Value between 1 and 1024 (inclusive) — Controls the probability of this enchantment when enchanting.
    * The probability is determined weight/total weight * 100%, where total_weight is the sum of the weights of all available enchantments.

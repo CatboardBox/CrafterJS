@@ -1,8 +1,8 @@
-import { IRecipeBase, IRecipeRef, RecipeCategory } from "../../schema";
+import { IRecipeBase, IRef, RecipeCategory, ResourceType } from "../../schema";
 import { Recipe } from "./recipe";
 
-const CategoryMap: Record<IRecipeRef, RecipeCategory> = {};
-const CategoryGroupMap: Record<IRecipeRef, string> = {};
+const CategoryMap: Record<IRef[ResourceType.Recipe], RecipeCategory> = {};
+const CategoryGroupMap: Record<IRef[ResourceType.Recipe], string> = {};
 
 export function getCategory<T extends IRecipeBase = IRecipeBase>(
   recipe: Recipe<T>

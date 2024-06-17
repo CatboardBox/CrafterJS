@@ -1,6 +1,6 @@
-import { IEnchantmentRef, IPredicateRef } from "../ref";
 import { SubLootContext } from "../lootContext/common";
 import { ILevelBasedValue, INumberProvider } from "../misc";
+import { IRef, ResourceType } from "../ref";
 import { IEntityCondition, IItemCondition } from "./conditions";
 import { PredicateCondition } from "./predicateConditions";
 import { IFilteredPredicate } from "./predicateGroups";
@@ -22,7 +22,7 @@ export interface IPredicateInverted<T extends SubLootContext[]> {
 
 export interface IPredicateReference {
   condition: PredicateCondition.Reference;
-  name: IPredicateRef;
+  name: IRef[ResourceType.Predicates];
 }
 
 export interface IPredicateEntityProperties {
@@ -135,7 +135,7 @@ export interface IPredicateRandomChanceWithEnchantedBonus {
   condition: PredicateCondition.RandomChanceWithEnchantedBonus;
   unenchanted_chance: number;
   enchanted_chance: ILevelBasedValue;
-  enchantment: IEnchantmentRef;
+  enchantment: IRef[ResourceType.Enchantment];
 }
 
 export interface IPredicateSurvivesExplosion {
@@ -144,7 +144,7 @@ export interface IPredicateSurvivesExplosion {
 
 export interface IPredicateTableBonus {
   condition: PredicateCondition.TableBonus;
-  enchantment: IEnchantmentRef;
+  enchantment: IRef[ResourceType.Enchantment];
   chances: unknown; //todo
 }
 

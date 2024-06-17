@@ -3,7 +3,7 @@ import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
 import { RelativeEntity } from "../entity";
 import { IEffectComponentMappingType } from "../misc";
-import { IFunctionRef, IParticleRef, ISoundEventRef } from "../../ref";
+import { IRef, ResourceType } from "../../ref";
 
 export enum EntityEffectsType {
   /**
@@ -119,8 +119,8 @@ export type IExplodeEntityEffects = {
   radius: ILevelBasedValue;
   create_fire: boolean;
   block_interaction: BlockInteractionType;
-  small_particle: { type: IParticleRef };
-  large_particle: { type: IParticleRef };
+  small_particle: { type: IRef[ResourceType.Particle] };
+  large_particle: { type: IRef[ResourceType.Particle] };
   sound: string; //todo
 };
 
@@ -131,7 +131,7 @@ export type IIgniteEntityEffects = {
 
 export type IPlaySoundEntityEffects = {
   type: EntityEffectsType.PlaySound;
-  sound: ISoundEventRef;
+  sound: IRef[ResourceType.SoundEvents];
   volume: number;
   pitch: number;
 };
@@ -156,7 +156,7 @@ export type IReplaceDiskEntityEffects = {
 
 export type IRunFunctionEntityEffects = {
   type: EntityEffectsType.RunFunction;
-  function: IFunctionRef;
+  function: IRef[ResourceType.Function];
 };
 
 export type ISetBlockPropertiesEntityEffects = {
@@ -169,7 +169,7 @@ export type ISetBlockPropertiesEntityEffects = {
 //todo
 export type ISpawnParticlesEntityEffects = {
   type: EntityEffectsType.SpawnParticles;
-  particle: { type: IParticleRef };
+  particle: { type: IRef[ResourceType.Particle] };
   horizontal_position:
     | {
         type: "entity_position";

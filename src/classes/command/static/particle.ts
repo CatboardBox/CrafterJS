@@ -1,4 +1,4 @@
-import { IParticleRef, Position, Vector3 } from "../../../schema";
+import { IRef, ResourceType, Position, Vector3 } from "../../../schema";
 import { CommandInstance } from "../commandInstance";
 import {
   AsRelativePosition,
@@ -7,7 +7,7 @@ import {
 } from "../../conversions";
 
 export interface IParticleParams {
-  particle: IParticleRef;
+  particle: IRef[ResourceType.Particle];
   delta: Vector3;
   position?: Position;
   speed?: number;

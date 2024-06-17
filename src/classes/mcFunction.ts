@@ -1,5 +1,5 @@
 import { Namespace } from "./namespace";
-import { IFunctionRef, ResourceType } from "../schema/minecraft/ref";
+import { IRef, ResourceType } from "../schema/minecraft/ref";
 import { CommandInstance } from "./command/commandInstance";
 import { ContentGenerator } from "./content";
 
@@ -10,7 +10,7 @@ interface IFunctionConstructor {
   buildPriority?: number;
 }
 
-export class McFunction extends ContentGenerator<IFunctionRef, string[]> {
+export class McFunction extends ContentGenerator<IRef[ResourceType.Function], string[]> {
   constructor(values: IFunctionConstructor) {
     super({
       type: [ResourceType.Function],

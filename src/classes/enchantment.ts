@@ -1,5 +1,5 @@
 import { Namespace } from "./namespace";
-import { IEnchantmentRef, ResourceType } from "../schema/minecraft/ref";
+import { IRef, ResourceType } from "../schema/minecraft/ref";
 import {
   IEffectComponent,
   IEnchantment,
@@ -66,7 +66,7 @@ interface IEnchantmentConstructor {
   namespace: Namespace;
   buildPriority?: number;
 }
-export class Enchantment extends ContentGenerator<IEnchantmentRef, IEnchantment> {
+export class Enchantment extends ContentGenerator<IRef[ResourceType.Enchantment], IEnchantment> {
   constructor({
     name,
     namespace,
