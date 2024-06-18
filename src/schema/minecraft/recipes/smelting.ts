@@ -1,4 +1,5 @@
-import { IRecipeResultSingle, RecipeType } from "./common";
+import { IItem } from "../item";
+import {  RecipeType } from "./common";
 import { ICookingRecipeBase } from "./common/cooking";
 import { RecipeCategory } from "./recipebook";
 
@@ -13,7 +14,7 @@ export interface ISmeltingRecipe extends ICookingRecipeBase {
    * Defaults to {@link RecipeCategory.Misc}.
    */
   category?: RecipeCategory.Food | RecipeCategory.Blocks | RecipeCategory.Misc;
-  result: IRecipeResultSingle;
+  result: IItem;
   experience?: number;
   /**
    * @inheritdoc

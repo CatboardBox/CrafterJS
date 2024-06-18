@@ -66,6 +66,7 @@ export abstract class Namespace {
   public abstract rootNamespace: RootNamespace;
   public abstract readonly displayName: string;
   public abstract readonly namespacePath: string;
+  public abstract readonly namespaceKey: string;
   public abstract readonly events: {
     [EventType.Build]: Event<boolean>;
   };
@@ -80,6 +81,7 @@ export class RootNamespace extends Namespace {
   public displayName: string;
   public rootNamespace: RootNamespace = this;
   public namespacePath: string = `${this.id}:`;
+  public namespaceKey: string = `${this.id}.`;
 
   private readonly emitters = {
     [EventType.Build]: new Emitter<boolean>(),
@@ -109,6 +111,7 @@ export class NestedNamespace extends Namespace {
   public displayName: string;
   public rootNamespace: RootNamespace;
   public namespacePath: string;
+  public namespaceKey: string;
   private readonly parent: Namespace;
 
   constructor(name: string, parent: Namespace) {
@@ -117,6 +120,7 @@ export class NestedNamespace extends Namespace {
     this.displayName = `${parent.displayName} -> ${prettyString(name, 15)}`;
     this.rootNamespace = parent.rootNamespace;
     this.namespacePath = `${parent.namespacePath + this.id}/`;
+    this.namespaceKey = `${parent.namespaceKey + this.id}.`;
   }
 
   public get events() {

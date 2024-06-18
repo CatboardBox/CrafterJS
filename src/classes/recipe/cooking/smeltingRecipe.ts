@@ -1,6 +1,6 @@
 import {
+  IItem,
   IRecipeIngredient,
-  IRecipeResultSingle,
   ISmeltingRecipe,
   RecipeType,
 } from "../../../schema";
@@ -13,7 +13,7 @@ import { SmokingRecipe } from "./smokingRecipe";
 const defaultRecipe: ISmeltingRecipe = {
   type: RecipeType.Smelting,
   ingredient: undefined as unknown as IRecipeIngredient,
-  result: undefined as unknown as IRecipeResultSingle,
+  result: undefined as unknown as IItem,
 };
 export class SmeltingRecipe extends Recipe<ISmeltingRecipe> {
   private readonly orignalName: string;
@@ -30,7 +30,7 @@ export class SmeltingRecipe extends Recipe<ISmeltingRecipe> {
     return this;
   }
 
-  returnsResult(result: IRecipeResultSingle): SmeltingRecipe {
+  returnsResult(result: IItem): SmeltingRecipe {
     this.constructedData.result = result;
     return this;
   }

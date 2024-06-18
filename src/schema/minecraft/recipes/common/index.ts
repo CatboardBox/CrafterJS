@@ -1,4 +1,5 @@
-import {IRef,ITagRef, ResourceType, TagType } from "../../ref";
+import { IItem } from "../../item";
+import { ResLocRef, TagRef, ResourceType, TagType } from "../../ref";
 
 export enum RecipeType {
   Blasting = "minecraft:blasting",
@@ -15,10 +16,10 @@ export enum RecipeType {
 
 export type IRecipeIngredientSingle =
   | {
-      item: IRef[ResourceType.Item];
+      item: ResLocRef[ResourceType.Item];
     }
   | {
-      tag: ITagRef[TagType.Item];
+      tag: TagRef[TagType.Item];
     };
 
 export type IRecipeIngredient =
@@ -27,14 +28,5 @@ export type IRecipeIngredient =
 
 export interface IRecipeBase {
   type: RecipeType;
-  result: IRecipeResultSingle;
-}
-
-export interface IRecipeResultSingle {
-  id: IRef[ResourceType.Item];
-  components?: unknown; //todo
-}
-
-export interface IRecipeResultMultiple extends IRecipeResultSingle {
-  count?: number;
+  result: IItem;
 }

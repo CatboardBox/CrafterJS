@@ -1,5 +1,5 @@
 import { Namespace } from "./namespace";
-import { IRef, ResourceType } from "../schema/minecraft/ref";
+import { ResLocRef, ResourceType } from "../schema/minecraft/ref";
 import {
   IEffectComponent,
   IEnchantment,
@@ -40,10 +40,7 @@ function parseSlot(slot: Slot): IEnchantmentSlots {
 import { ContentGenerator } from "./content";
 //https://minecraft.wiki/w/Enchantment_definition#Effect_components
 const defaultEnchantment: IEnchantment = {
-  description: {
-    translate: "",
-    fallback: "",
-  },
+  description: "unnamed enchantment",
   anvil_cost: 1,
   effects: {},
   min_cost: {
@@ -66,12 +63,11 @@ interface IEnchantmentConstructor {
   namespace: Namespace;
   buildPriority?: number;
 }
-export class Enchantment extends ContentGenerator<IRef[ResourceType.Enchantment], IEnchantment> {
-  constructor({
-    name,
-    namespace,
-    ...others
-  }: IEnchantmentConstructor) {
+export class Enchantment extends ContentGenerator<
+  ResLocRef[ResourceType.Enchantment],
+  IEnchantment
+> {
+  constructor({ name, namespace, ...others }: IEnchantmentConstructor) {
     super({
       type: [ResourceType.Enchantment],
       name,
@@ -80,7 +76,7 @@ export class Enchantment extends ContentGenerator<IRef[ResourceType.Enchantment]
       ...others,
     });
     this.constructedData.description = {
-      translate: `enchantment.${namespace.rootNamespace.id}.${this.id}`,
+      translate: this.translationKey,
       fallback: name,
     };
   }

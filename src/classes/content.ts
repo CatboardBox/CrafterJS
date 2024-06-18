@@ -1,5 +1,5 @@
 import { EventType, Namespace } from "./namespace";
-import { IResourceRef, ResourceType } from "../schema";
+import { IResLocRef, ITranslationKey, ResourceType } from "../schema";
 import { forceSnakeCase, prettyString } from "../util";
 import createFile from "../filegen";
 
@@ -18,17 +18,20 @@ interface IContentGeneratorConstructor<DataType> {
    * should not effect on build result, mainly for debug order
    */
   buildPriority?: number;
-} 
+}
 /**
  * When creating content, please ensure that the file in which the content is generated gets imported eventually
- * 
+ *
  * pros : stuff that you dont need (unused references) are not generated
- * 
+ *
  * cons : you have to import the file manually (or use a script to do it for you)
  */
-export abstract class ContentGenerator<Reference extends IResourceRef, DataType> implements IReference {
-  public readonly id: string;
-  public readonly ref: Reference;
+export abstract class ContentGenerator<
+  LocRef extends IResLocRef,
+  DataType = Record<string, unknown>
+> implements IReference
+{
+  protected readonly id: string;
   protected readonly constructedData: DataType;
   public readonly displayName: string;
   private readonly resourceType: string[];
@@ -48,7 +51,6 @@ export abstract class ContentGenerator<Reference extends IResourceRef, DataType>
     const displaytype = type.join("/").toLocaleUpperCase();
     this.displayName = `[${prettyString(displaytype, 12)}] ${name}`;
     this.constructedData = JSON.parse(JSON.stringify(data)) as DataType;
-    this.ref = this.generateRef();
     namespace.events[EventType.Build].addListener(
       (debug) => this.build(debug),
       buildPriority
@@ -56,8 +58,15 @@ export abstract class ContentGenerator<Reference extends IResourceRef, DataType>
   }
   protected validate(): void {}
 
-  protected generateRef(): Reference {
-    return `${this.namespace.namespacePath}${this.id}` as Reference;
+  public get ref(): LocRef {
+    const namespacePath = this.namespace.namespacePath;
+    return `${namespacePath}${this.id}` as LocRef;
+  }
+
+  protected get translationKey(): ITranslationKey {
+    const namespaceKey = this.namespace.namespaceKey;
+    const typePrefix = this.resourceType.join(".");
+    return `${typePrefix}.${namespaceKey}.${this.id}` as ITranslationKey;
   }
 
   private get folderPath(): string {
@@ -78,6 +87,11 @@ export abstract class ContentGenerator<Reference extends IResourceRef, DataType>
     this.validate();
     const fileExtension = this.fileExt;
     const content = this.compileContent();
-    createFile(this.folderPath, `${this.id}.${fileExtension}`, content);
+    createFile(
+      "datapack",
+      this.folderPath,
+      `${this.id}.${fileExtension}`,
+      content
+    );
   }
 }

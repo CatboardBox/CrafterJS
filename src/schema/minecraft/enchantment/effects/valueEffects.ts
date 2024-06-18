@@ -41,17 +41,6 @@ export type IValueEffect =
       type: ValueEffectTypes.AllOf;
       effects: IValueEffect[];
     };
-export interface IEnchantedValueEffects {
-  /**
-   * Determines how to modify the value.
-   */
-  effect: IValueEffect;
-  //  Additional fields of the minecraft:equipment_drops component: // todo
-  /**
-   * One of attacker, or victim. — which entity has to have the enchantment
-   */
-  enchanted: EnchantedEntity;
-}
 
 type ValueEffectComponentTypes =
   | EffectComponent.ArmorEffectiveness
@@ -83,18 +72,18 @@ interface IValueEffectComponentStandardContent {
   effect: IValueEffect;
 }
 
-interface IValueEffectComponentEquipmentDropsContent
-  extends IValueEffectComponentStandardContent {
-  enchanted: EnchantedEntity;
-}
-
 type IValueEffectComponentAll = IEffectComponentMappingType<
   ValueEffectComponentTypes,
   IValueEffectComponentStandardContent
 > &
   IEffectComponentMappingType<
     EffectComponent.EquipmentDrops,
-    IValueEffectComponentEquipmentDropsContent
+    IValueEffectComponentStandardContent & {
+      /**
+       * One of attacker, or victim. — which entity has to have the enchantment
+       */
+      enchanted: EnchantedEntity;
+    }
   > &
   IEffectComponentMappingType<DirectValueEffectComponentTypes, IValueEffect>;
 

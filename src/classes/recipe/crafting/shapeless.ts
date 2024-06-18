@@ -1,7 +1,7 @@
 import {
   ICraftingShapelessRecipe,
+  IItemStack,
   IRecipeIngredient,
-  IRecipeResultMultiple,
   RecipeType,
 } from "../../../schema";
 import { Namespace } from "../../namespace";
@@ -10,7 +10,7 @@ import { Recipe } from "../recipe";
 const defaultShapelessRecipe: ICraftingShapelessRecipe = {
   type: RecipeType.CraftingShapeless,
   ingredients: undefined as unknown as Array<IRecipeIngredient>,
-  result: undefined as unknown as IRecipeResultMultiple,
+  result: undefined as unknown as IItemStack,
 };
 export class ShapelessRecipe extends Recipe<ICraftingShapelessRecipe> {
   constructor(params: { name: string; id?: string; namespace: Namespace }) {
@@ -25,7 +25,7 @@ export class ShapelessRecipe extends Recipe<ICraftingShapelessRecipe> {
     return this;
   }
 
-  returnsResult(result: IRecipeResultMultiple): ShapelessRecipe {
+  returnsResult(result: IItemStack): ShapelessRecipe {
     this.constructedData.result = result;
     return this;
   }

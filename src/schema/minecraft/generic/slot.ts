@@ -1,5 +1,3 @@
-import { IResourceRef } from "../ref";
-
 export enum Slot {
   Contents = "contents",
   Container = "container",
@@ -52,12 +50,12 @@ type SlotNumberRanges = {
 export function specificSlot<S extends SlotWithCapacity>(
   slot: S,
   slotNumber: SlotNumberRanges[S]
-): ISlotRef {
-  return `${slot}.${slotNumber}` as ISlotRef;
+): SlotRef {
+  return `${slot}.${slotNumber}` as SlotRef;
 }
 
-export type ISlotRef =
-  | (IResourceRef & {
+export type SlotRef =
+  | (string & {
       readonly __slotBrand: unique symbol;
     })
   | Slot;

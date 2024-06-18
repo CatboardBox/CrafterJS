@@ -1,17 +1,16 @@
-import {  IRef, ResourceType } from "../../ref";
-import { INumberCondition } from "./misc";
+import { INumberPredicate } from "./misc";
 
-export interface IEffectCondition {
+export interface IEffectPredicate {
   /**
    * Test the effect's amplifier. Level I is represented by 0.
    * Use an object with  min and  max to test for a range of values (inclusive).
    */
-  amplifier?: INumberCondition;
+  amplifier?: INumberPredicate;
   /**
    * Test if the effect's remaining time (in ticks). Test if the effect's remaining time (in ticks) is between two numbers, inclusive.
    * Use an object with  min and  max to test for a range of values (inclusive).
    */
-  duration?: INumberCondition;
+  duration?: INumberPredicate;
   /**
    * Test whether the effect is from a beacon.
    */
@@ -20,7 +19,4 @@ export interface IEffectCondition {
    * Test whether the effect is from a beacon.
    */
   visible?: boolean;
-}
-export interface IEffectConditions {
-  [key: IRef[ResourceType.MobEffects]]: IEffectCondition;
 }

@@ -1,4 +1,5 @@
-import { IRecipeIngredient, IRecipeResultMultiple, RecipeType } from "./common";
+import { IItemStack } from "../item";
+import { IRecipeIngredient,  RecipeType } from "./common";
 import { ICraftingRecipeBase } from "./common/crafting";
 interface Keys {
   [key: string]: IRecipeIngredient;
@@ -15,5 +16,5 @@ export interface ICraftingShapedRecipe extends ICraftingRecipeBase {
   show_notification?: boolean;
   pattern: Array<string>;
   key: Keys;
-  result: IRecipeResultMultiple;
+  result: IItemStack;
 }

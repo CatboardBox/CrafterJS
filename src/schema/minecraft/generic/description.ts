@@ -1,11 +1,9 @@
-interface description1 {
-  translate: string;
-  fallback: string;
+import { ITranslationKey } from "../ref";
+import { JsonString } from "./jsonString";
+
+interface description {
+  translate: ITranslationKey;
+  fallback?: JsonString;
 }
 
-interface description2 {
-  translate: string;
-  fallback: string;
-}
-
-export type IDescription = description1 | description2;
+export type IDescription = description | JsonString;

@@ -1,7 +1,7 @@
 import {
   ICampfireCookingRecipe,
+  IItem,
   IRecipeIngredient,
-  IRecipeResultSingle,
   RecipeType,
 } from "../../../schema";
 import { Namespace } from "../../namespace";
@@ -10,7 +10,7 @@ import { Recipe } from "../recipe";
 const defaultRecipe: ICampfireCookingRecipe = {
   type: RecipeType.CampfireCooking,
   ingredient: undefined as unknown as IRecipeIngredient,
-  result: undefined as unknown as IRecipeResultSingle,
+  result: undefined as unknown as IItem,
 };
 export class CampfireCookingRecipe extends Recipe<ICampfireCookingRecipe> {
   constructor(params: { name: string; id?: string; namespace: Namespace }) {
@@ -25,7 +25,7 @@ export class CampfireCookingRecipe extends Recipe<ICampfireCookingRecipe> {
     return this;
   }
 
-  returnsResult(result: IRecipeResultSingle): CampfireCookingRecipe {
+  returnsResult(result: IItem): CampfireCookingRecipe {
     this.constructedData.result = result;
     return this;
   }

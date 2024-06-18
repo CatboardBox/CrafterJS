@@ -1,11 +1,11 @@
 import { Namespace } from "./namespace";
-import { IRef, ITag, ITagRef, ResourceType, TagType } from "../schema";
+import { ResLocRef, ITag, TagRef, ResourceType, TagType } from "../schema";
 import { ContentGenerator } from "./content";
 
 class BaseTag<
   Type extends TagType,
   Res extends ResourceType
-> extends ContentGenerator<ITagRef[Type], ITag<Type, Res>> {
+> extends ContentGenerator<TagRef[Type], ITag<Type, Res>> {
   constructor(tagType: TagType, name: string, namespace: Namespace) {
     super({
       type: [ResourceType.Tags, tagType],
@@ -16,15 +16,16 @@ class BaseTag<
     });
   }
 
-  protected generateRef(): ITagRef[Type] {
-    return `#${super.generateRef()}` as ITagRef[Type];
+  public get ref(): TagRef[Type] {
+    return `#${super.ref}` as TagRef[Type];
   }
 
   public addValue(
     ...value: (
-      | ITagRef[Type]
-      | IRef[Res]
-      | ContentGenerator<IRef[Res], unknown>
+      | TagRef[Type]
+      | ResLocRef[Res]
+      | ContentGenerator<ResLocRef[Res], unknown>
+      | BaseTag<TagType, ResourceType>
     )[]
   ) {
     value.forEach((v) => {

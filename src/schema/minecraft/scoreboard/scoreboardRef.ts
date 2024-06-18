@@ -1,8 +1,8 @@
-import { IResourceRef } from "../ref";
+//todo
 
-export type IScoreboardRef = IResourceRef & {
+export type IScoreboardRef = string & {
   readonly __scoreboardBrand: unique symbol;
 };
-export type IScoreboardValueRef = IResourceRef & {
+export type IScoreboardValueRef = string & {
   readonly __scoreboardValueBrand: unique symbol;
 };

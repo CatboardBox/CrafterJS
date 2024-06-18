@@ -1,17 +1,17 @@
-import {  IRef, ITagRef, ResourceType } from "../../ref";
-import { AttributesOperation } from "../../enchantment";
-import { Slot } from "../../generic";
-import { TagType } from "../../ref";
-import { INumberCondition } from "./misc";
+import { ResLocRef, TagRef, ResourceType, IAttributeRef } from "../ref";
+import { AttributesOperation } from "../enchantment";
+import { TagType } from "../ref";
+import { INumberPredicate } from "./misc";
+import { IItemComponents } from "../dataComponent";
+import { ICustomData, UUIDRef } from "../generic";
 
-interface IItemComponent {
-  //todo
-}
-
-export interface IItemCondition {
-  items?: IRef[ResourceType.Item] | IRef[ResourceType.Item][] | ITagRef[TagType.Item];
-  count?: INumberCondition;
-  components?: IItemComponent;
+export interface IItemPredicate {
+  items?:
+    | ResLocRef[ResourceType.Item]
+    | ResLocRef[ResourceType.Item][]
+    | TagRef[TagType.Item];
+  count?: INumberPredicate;
+  components?: IItemComponents;
   predicate?: IItemSubPredicate;
 }
 
@@ -34,10 +34,13 @@ export enum IItemSubPredicateType {
 export interface IItemSubPredicate {
   [IItemSubPredicateType.AttributeModifiers]?: {
     modifiers: {
-      attribute: unknown; //todo
-      uuid: unknown; //todo
+      attribute:
+        | IAttributeRef
+        | IAttributeRef[];
+      // | TagRef[TagType.Attribute]; // check if attribute tag exists
+      uuid: UUIDRef;
       name: string;
-      amount: INumberCondition;
+      amount: INumberPredicate;
       operation: AttributesOperation;
       slot:
         | "any"
@@ -51,26 +54,28 @@ export interface IItemSubPredicate {
         | "armor";
     }[];
   };
+
   [IItemSubPredicateType.BundleContents]?: {
-    items: IItemCondition[];
+    items: IItemPredicate[];
   };
   [IItemSubPredicateType.Container]?: {
-    items: IItemCondition[];
+    items: IItemPredicate[];
   };
-  [IItemSubPredicateType.CustomData]?: unknown; //todo
+  [IItemSubPredicateType.CustomData]?: ICustomData;
   [IItemSubPredicateType.Damage]?: {
-    damage: INumberCondition;
+    damage: INumberPredicate;
     /**
      * Tests the durability of the item in this stack, represented by the number of uses remaining (not number of uses consumed).
      */
-    durability: INumberCondition;
+    durability: INumberPredicate;
   };
   [IItemSubPredicateType.Enchantments]?: {
     enchantments: {
-      enchantment?: IRef[ResourceType.Enchantment] | IRef[ResourceType.Enchantment][] | ITagRef[TagType.Enchantment];
-      levels: INumberCondition;
+      enchantment?:
+        | ResLocRef[ResourceType.Enchantment]
+        | ResLocRef[ResourceType.Enchantment][]
+        | TagRef[TagType.Enchantment];
+      levels: INumberPredicate;
     }[];
   };
 }
-
-export type IEquipmentCondition = Partial<Record<Slot, IItemCondition>>;

@@ -1,8 +1,8 @@
 import {
   ICraftingShapedRecipe,
+  IItemStack,
   IRecipeIngredient,
   IRecipeIngredientSingle,
-  IRecipeResultMultiple,
   RecipeType,
 } from "../../../schema";
 import { Namespace } from "../../namespace";
@@ -13,7 +13,7 @@ const defaultShapedRecipe: ICraftingShapedRecipe = {
   type: RecipeType.CraftingShaped,
   pattern: undefined as unknown as Array<string>,
   key: {} as unknown as Record<string, IRecipeIngredient>,
-  result: undefined as unknown as IRecipeResultMultiple,
+  result: undefined as unknown as IItemStack,
 };
 export class ShapedRecipe extends Recipe<ICraftingShapedRecipe> {
   private keyToSymbol: Record<string, string> = {};
@@ -57,7 +57,7 @@ export class ShapedRecipe extends Recipe<ICraftingShapedRecipe> {
     return this;
   }
 
-  returnsResult(result: IRecipeResultMultiple): ShapedRecipe {
+  returnsResult(result: IItemStack): ShapedRecipe {
     this.constructedData.result = result;
     return this;
   }

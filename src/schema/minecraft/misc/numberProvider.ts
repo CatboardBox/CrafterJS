@@ -1,3 +1,5 @@
+import { PlayerRef, UUIDRef } from "../generic";
+import { IScoreboardRef } from "../scoreboard";
 import { ILevelBasedValue } from "./levelBasedValue";
 
 enum NumberProviderType {
@@ -30,13 +32,13 @@ interface ScoreNumberProvider {
   target:
     | {
         type: TargetType.Fixed;
-        name: string; //todo
+        name: UUIDRef | PlayerRef;
       }
     | {
         type: TargetType.Context;
         target: "this" | "killer" | "direct_killer" | "killer_player";
       };
-  score: string; //todo
+  score: IScoreboardRef;
   scale?: number;
 }
 

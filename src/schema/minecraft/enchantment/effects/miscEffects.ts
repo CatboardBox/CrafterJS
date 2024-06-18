@@ -15,7 +15,7 @@ interface ILocationBasedEffectComponentStandardContent {
    */
   effect:
     | IEntityEffects
-    //todo might might not be able to hardcode if a 2nd type is added
+    // might might not be able to hardcode if a 2nd type is added
     | ({ type: "minecraft:attribute" } & IAttributeEffects);
 }
 

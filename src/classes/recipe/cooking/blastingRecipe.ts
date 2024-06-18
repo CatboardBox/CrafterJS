@@ -1,7 +1,7 @@
 import {
   IBlastingRecipe,
+  IItem,
   IRecipeIngredient,
-  IRecipeResultSingle,
   RecipeType,
 } from "../../../schema";
 import { Namespace } from "../../namespace";
@@ -10,7 +10,7 @@ import { Recipe } from "../recipe";
 const defaultRecipe: IBlastingRecipe = {
   type: RecipeType.Blasting,
   ingredient: undefined as unknown as IRecipeIngredient,
-  result: undefined as unknown as IRecipeResultSingle,
+  result: undefined as unknown as IItem,
 };
 export class BlastingRecipe extends Recipe<IBlastingRecipe> {
   constructor(params: { name: string; id?: string; namespace: Namespace }) {
@@ -25,7 +25,7 @@ export class BlastingRecipe extends Recipe<IBlastingRecipe> {
     return this;
   }
 
-  returnsResult(result: IRecipeResultSingle): BlastingRecipe {
+  returnsResult(result: IItem): BlastingRecipe {
     this.constructedData.result = result;
     return this;
   }

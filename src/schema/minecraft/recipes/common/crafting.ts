@@ -1,6 +1,6 @@
+import { IItemStack } from "../../item";
 import {
   IRecipeBase,
-  IRecipeResultMultiple,
   RecipeType,
 } from "../common";
 import { IRecipeBookSupport, RecipeCategory } from "../recipebook";
@@ -17,5 +17,5 @@ export interface ICraftingRecipeBase extends IRecipeBase,IRecipeBookSupport {
     | RecipeCategory.Building
     | RecipeCategory.Misc
     | RecipeCategory.Redstone;
-  result: IRecipeResultMultiple;
+  result: IItemStack;
 }

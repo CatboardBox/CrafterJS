@@ -1,9 +1,13 @@
+import { IBlockStatePropertiesPredicate } from "../generic";
 import { SubLootContext } from "../lootContext/common";
 import { ILevelBasedValue, INumberProvider } from "../misc";
-import { IRef, ResourceType } from "../ref";
-import { IEntityCondition, IItemCondition } from "./conditions";
+import { ResLocRef, ResourceType } from "../ref";
+import { IDamageTypePredicate } from "./damageTypePredicate";
+import { IEntityPredicate } from "./entityPredicate";
+import { IItemPredicate } from "./itemPredicate";
+import { ILocationPredicate } from "./locationPredicate";
 import { PredicateCondition } from "./predicateConditions";
-import { IFilteredPredicate } from "./predicateGroups";
+import { IFilteredPredicate } from "./predicateDependencies";
 
 export interface IPredicateAllOf<T extends SubLootContext[]> {
   condition: PredicateCondition.AllOf;
@@ -22,13 +26,13 @@ export interface IPredicateInverted<T extends SubLootContext[]> {
 
 export interface IPredicateReference {
   condition: PredicateCondition.Reference;
-  name: IRef[ResourceType.Predicates];
+  name: ResLocRef[ResourceType.Predicates];
 }
 
 export interface IPredicateEntityProperties {
   condition: PredicateCondition.EntityProperties;
   entity: "this" | "attacker" | "direct_attacker" | "attacking_player";
-  predicate: IEntityCondition;
+  predicate: IEntityPredicate;
 }
 
 export interface IPredicateRandomChance {
@@ -76,24 +80,26 @@ export interface IPredicateWeatherCheck {
    */
   thundering: boolean;
 }
-
+/**
+ * Requires block state provided by loot context, and always fails if not provided.
+ */
 export interface IPredicateBlockStateProperty {
   condition: PredicateCondition.BlockStateProperty;
-  block: unknown; //todo
+  block: ResLocRef[ResourceType.Block];
   properties?: {
-    [key: string]:
-      | string
-      | number
-      | {
-          min: number;
-          max: number;
-        };
+    name: ResLocRef[ResourceType.Block];
+
+    /**
+     * (Optional) Block state property key-value pair. The property must be possessed by the specified block.
+     * Unspecified properties of the specified block will be set to their default values.
+     */
+    properties?: IBlockStatePropertiesPredicate;
   };
 }
 
 export interface IPredicateDamageSourceProperties {
   condition: PredicateCondition.DamageSourceProperties;
-  predicate: unknown; //todo
+  predicate: IDamageTypePredicate;
 }
 
 export interface IPredicateEnchantmentActiveCheck {
@@ -123,19 +129,19 @@ export interface IPredicateLocationCheck {
   offsetX: number;
   offsetY: number;
   offsetZ: number;
-  predicate: unknown; //todo
+  predicate: ILocationPredicate;
 }
 
 export interface IPredicateMatchTool {
   condition: PredicateCondition.MatchTool;
-  predicate: IItemCondition;
+  predicate: IItemPredicate;
 }
 
 export interface IPredicateRandomChanceWithEnchantedBonus {
   condition: PredicateCondition.RandomChanceWithEnchantedBonus;
   unenchanted_chance: number;
   enchanted_chance: ILevelBasedValue;
-  enchantment: IRef[ResourceType.Enchantment];
+  enchantment: ResLocRef[ResourceType.Enchantment];
 }
 
 export interface IPredicateSurvivesExplosion {
@@ -144,8 +150,11 @@ export interface IPredicateSurvivesExplosion {
 
 export interface IPredicateTableBonus {
   condition: PredicateCondition.TableBonus;
-  enchantment: IRef[ResourceType.Enchantment];
-  chances: unknown; //todo
+  enchantment: ResLocRef[ResourceType.Enchantment];
+  /**
+   * List of probabilities for enchantment power, indexed from 0.
+   */
+  chances: number[];
 }
 
 export type IPredicate<T extends SubLootContext[]> = (

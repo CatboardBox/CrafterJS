@@ -1,4 +1,4 @@
-import { IRef ,ResourceType } from "../../schema";
+import { ResLocRef ,ResourceType } from "../../schema";
 import { Namespace } from "../namespace";
 import { asInlineFunction } from "./commandExtension";
 // function PositionArgBuilder<T>(returnType: (position: IPosition) => T) {
@@ -27,7 +27,7 @@ export class CommandInstance {
     this.command = command;
   }
 
-  public asInlineFunction(namespace: Namespace): IRef[ResourceType.Function] {
+  public asInlineFunction(namespace: Namespace): ResLocRef[ResourceType.Function] {
     return asInlineFunction(this, namespace);
   }
 }

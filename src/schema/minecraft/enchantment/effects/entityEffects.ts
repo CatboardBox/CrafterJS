@@ -1,9 +1,11 @@
-import { FullVector3 } from "../../generic";
+import { FullVector3, IBlockStateProperties } from "../../generic";
 import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
 import { RelativeEntity } from "../entity";
-import { IEffectComponentMappingType } from "../misc";
-import { IRef, ResourceType } from "../../ref";
+import { IBlockStateProvider, IEffectComponentMappingType } from "../misc";
+import { ResLocRef, TagRef, ResourceType, TagType } from "../../ref";
+import { IFloatProvider } from "../../misc";
+import { IBlockPredicate } from "../../predicate";
 
 export enum EntityEffectsType {
   /**
@@ -67,16 +69,20 @@ export type IAllOfEntityEffects = {
 
 export type IApplyMobEffectEntityEffects = {
   type: EntityEffectsType.ApplyMobEffect;
-  to_apply: string[]; //todo
+  to_apply:
+    | ResLocRef[ResourceType.MobEffect]
+    | ResLocRef[ResourceType.MobEffect][]; // | ITagRef[TagType.MobEffects]; //todo : check if tag for mob effects exists
   min_duration: ILevelBasedValue;
   max_duration: ILevelBasedValue;
   min_amplifier: ILevelBasedValue;
   max_amplifier: ILevelBasedValue;
 };
-
+/**
+ * Deals (extra) damage to the affected entity.
+ */
 export type IDamageEntityEntityEffects = {
   type: EntityEffectsType.DamageEntity;
-  damage_type: string; //todo
+  damage_type: ResLocRef[ResourceType.DamageType];
   min_damage: ILevelBasedValue;
   max_damage: ILevelBasedValue;
 };
@@ -112,16 +118,19 @@ export enum BlockInteractionType {
 export type IExplodeEntityEffects = {
   type: EntityEffectsType.Explode;
   attribute_to_user: boolean;
-  damage_type?: string; //todo
-  immune_blocks?: string[]; //todo
+  damage_type?: ResLocRef[ResourceType.DamageType];
+  immune_blocks?:
+    | ResLocRef[ResourceType.Block]
+    | ResLocRef[ResourceType.Block][]
+    | TagRef[TagType.Block];
   knockback_multiplier?: ILevelBasedValue;
   offset?: FullVector3;
   radius: ILevelBasedValue;
   create_fire: boolean;
   block_interaction: BlockInteractionType;
-  small_particle: { type: IRef[ResourceType.Particle] };
-  large_particle: { type: IRef[ResourceType.Particle] };
-  sound: string; //todo
+  small_particle: { type: ResLocRef[ResourceType.Particle] };
+  large_particle: { type: ResLocRef[ResourceType.Particle] };
+  sound: ResLocRef[ResourceType.SoundEvent];
 };
 
 export type IIgniteEntityEffects = {
@@ -131,62 +140,65 @@ export type IIgniteEntityEffects = {
 
 export type IPlaySoundEntityEffects = {
   type: EntityEffectsType.PlaySound;
-  sound: IRef[ResourceType.SoundEvents];
-  volume: number;
-  pitch: number;
+  sound: ResLocRef[ResourceType.SoundEvent];
+  volume: IFloatProvider;
+  pitch: IFloatProvider;
 };
 
 export type IReplaceBlockEntityEffects = {
   type: EntityEffectsType.ReplaceBlock;
-  block_state: string; //todo
+  block_state: IBlockStateProvider;
   offset?: FullVector3;
-  trigger_game_event: string; //todo
-  predicate?: string; //todo
+  trigger_game_event: ResLocRef[ResourceType.GameEvent];
+  predicate?: IBlockPredicate;
 };
 
 export type IReplaceDiskEntityEffects = {
   type: EntityEffectsType.ReplaceDisk;
-  block_state: string; //todo
+  block_state: IBlockStateProvider;
   offset?: FullVector3;
   radius: ILevelBasedValue;
   height: ILevelBasedValue;
-  trigger_game_event: string; //todo
-  predicate?: string; //todo
+  trigger_game_event: ResLocRef[ResourceType.GameEvent];
+  predicate?: IBlockPredicate;
 };
 
 export type IRunFunctionEntityEffects = {
   type: EntityEffectsType.RunFunction;
-  function: IRef[ResourceType.Function];
+  function: ResLocRef[ResourceType.Function];
 };
 
 export type ISetBlockPropertiesEntityEffects = {
   type: EntityEffectsType.SetBlockProperties;
   offset?: FullVector3;
-  properties: Record<string, string>; //todo
-  trigger_game_event: string; //todo
+  properties: IBlockStateProperties;
+  trigger_game_event: ResLocRef[ResourceType.GameEvent];
 };
 
-//todo
+export enum ISpawnParticlesPositionType {
+  EntityPosition = "entity_position",
+  InBoundingBox = "in_bounding_box",
+}
 export type ISpawnParticlesEntityEffects = {
   type: EntityEffectsType.SpawnParticles;
-  particle: { type: IRef[ResourceType.Particle] };
+  particle: { type: ResLocRef[ResourceType.Particle] };
   horizontal_position:
     | {
-        type: "entity_position";
+        type: ISpawnParticlesPositionType.EntityPosition;
         offset?: number;
       }
     | {
-        type: "in_bounding_box";
+        type: ISpawnParticlesPositionType.InBoundingBox;
         offset?: number;
         scale?: number;
       };
   vertical_position:
     | {
-        type: "entity_position";
+        type: ISpawnParticlesPositionType.EntityPosition;
         offset?: number;
       }
     | {
-        type: "in_bounding_box";
+        type: ISpawnParticlesPositionType.InBoundingBox;
         offset?: number;
         scale?: number;
       };
@@ -202,7 +214,10 @@ export type ISpawnParticlesEntityEffects = {
 
 export type ISummonEntityEntityEffects = {
   type: EntityEffectsType.SummonEntity;
-  entity: string[]; //todo
+  entity:
+    | ResLocRef[ResourceType.Entity]
+    | ResLocRef[ResourceType.Entity][]
+    | TagRef[TagType.Entity];
   join_team: boolean;
 };
 
