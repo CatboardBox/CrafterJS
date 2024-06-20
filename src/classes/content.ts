@@ -1,7 +1,9 @@
 import { EventType, Namespace } from "./namespace";
 import { IResLocRef, ITranslationKey, ResourceType } from "../schema";
 import { forceSnakeCase, prettyString } from "../util";
-import createFile from "../filegen";
+import { createFile } from "../filegen";
+import { logger } from "../logger";
+import { inspect } from "node:util";
 
 export interface IReference {
   ref: string;
@@ -78,11 +80,11 @@ export abstract class ContentGenerator<
     return "json";
   }
   protected compileContent(): string {
+    // return inspect(this.constructedData, { depth: null, compact: false });
     return JSON.stringify(this.constructedData, null, 2);
   }
-  private build(debug: boolean): void {
-    if (debug)
-      console.log(`${this.namespace.displayName} -> ${this.displayName}`);
+  protected build(debug: boolean): void {
+    logger(debug, `${this.namespace.displayName} -> ${this.displayName}`);
 
     this.validate();
     const fileExtension = this.fileExt;

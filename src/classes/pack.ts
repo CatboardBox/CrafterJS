@@ -1,8 +1,9 @@
 import { Colors, packMeta } from "../schema";
 import { latestDatapackVersion, latestResourcepackVersion } from "../info";
 import { RootNamespace } from "./namespace";
-import createFile, { generateFiles } from "../filegen";
+import { generateFiles, createFile } from "../filegen";
 import { forceSnakeCase } from "../util";
+import { logger } from "../logger";
 
 interface BuildOptions {
   outputFolder?: string;
@@ -63,20 +64,20 @@ export class Pack {
     },
     miscOptions?: MiscOptions
   ) {
-    this.buildDatapack(datapackOptions,miscOptions);
+    this.buildDatapack(datapackOptions, miscOptions);
     this.buildResourcepack(resourcepackOptions, miscOptions);
   }
 
   public buildResourcepack(
     buildOptions: BuildOptions,
-    { deleteExisting, debug }: MiscOptions = {
+    { deleteExisting = true, debug = false }: MiscOptions = {
       deleteExisting: true,
       debug: false,
     }
   ) {
     const outputFolder = buildOptions.outputFolder || "output/resourcepack";
     this.buildNamespaces(debug);
-    if (debug) console.log("Generating resourcepack files");
+    logger(debug, "Generating resourcepack files");
     createFile(
       "resourcepack",
       "../",
@@ -92,14 +93,14 @@ export class Pack {
 
   public buildDatapack(
     buildOptions: BuildOptions,
-    { deleteExisting, debug }: MiscOptions = {
+    { deleteExisting = true, debug = false }: MiscOptions = {
       deleteExisting: true,
       debug: false,
     }
   ) {
     const outputFolder = buildOptions.outputFolder || "output/datapack";
     this.buildNamespaces(debug);
-    if (debug) console.log("Generating datapack files");
+    logger(debug, "Generating datapack files");
     createFile(
       "datapack",
       "../",
@@ -109,6 +110,7 @@ export class Pack {
     generateFiles(
       "datapack",
       `${outputFolder}/${this.name}/data/`,
+      debug,
       deleteExisting
     );
   }
@@ -117,7 +119,7 @@ export class Pack {
   private buildNamespaces(debug: boolean = false) {
     if (this.isBuilt) return;
     this.isBuilt = true;
-    if (debug) console.log("Building pack", this.name);
+    logger(debug, "Building pack", this.name);
     for (const namespace of this.namepaces) {
       namespace.build(debug);
     }

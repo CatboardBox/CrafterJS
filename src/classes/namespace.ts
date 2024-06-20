@@ -1,3 +1,4 @@
+import { logger } from "../logger";
 import { forceSnakeCase, prettyString } from "../util";
 
 type EventListener<T> = (value: T) => void;
@@ -74,7 +75,7 @@ export abstract class Namespace {
   constructor(name: string) {
     this.id = forceSnakeCase(name);
   }
-  public abstract folderPath(resourcePath: string): string;
+  public abstract folderPath(resourcePath?: string): string;
 }
 
 export class RootNamespace extends Namespace {
@@ -97,12 +98,13 @@ export class RootNamespace extends Namespace {
     this.displayName = `[${prettyString(name, 15)}]`;
   }
 
-  public folderPath(resourcePath: string) {
+  public folderPath(resourcePath?: string) {
+    if (!resourcePath) return `${this.id}/`;
     return `${this.rootNamespace.id}/${resourcePath}/`;
   }
 
   public build(debug = false) {
-    if (debug) console.log(`Building: ${this.displayName}`);
+    logger(debug,`Building: ${this.displayName}`);
     this.emitters[EventType.Build].emit(debug);
   }
 }
@@ -127,7 +129,7 @@ export class NestedNamespace extends Namespace {
     return this.rootNamespace.events;
   }
 
-  public folderPath(resourcePath: string) {
+  public folderPath(resourcePath?: string) {
     return this.parent.folderPath(resourcePath) + this.id + "/";
   }
 }

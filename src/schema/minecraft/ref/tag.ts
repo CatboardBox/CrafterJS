@@ -24,7 +24,7 @@ export enum TagType {
 // copy paste this to extend the tag system
 // Utility type to generate tag types from TagType enum
 type GenerateTagRef<T extends string> = ResLocRef[ResourceType.Tags] & {
-  readonly __tagTypeBrand: `tag_${T}`;
+  readonly __tagTypeBrand: T;
 };
 
 // Generate tag types dynamically

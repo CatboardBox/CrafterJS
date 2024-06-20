@@ -192,7 +192,7 @@ export interface IItemComponents {
   [ComponentType.WrittenBookContent]?: IWrittenBookContent;
 }
 
-type IBlockPredicate = {
+export type IBlockStatePredicate = {
   blocks:
     | ResLocRef[ResourceType.Block]
     | ResLocRef[ResourceType.Block][]
@@ -251,9 +251,9 @@ interface IBannerPatterns {
   }[];
 }
 
-type IBaseColor = Colors;
+export type IBaseColor = Colors;
 
-type IBees = {
+export type IBees = {
   entity_data: unknown; //todo
   /**
    * The minimum amount of time in ticks for this entity to stay in the hive
@@ -291,32 +291,32 @@ interface IBucketEntityData {
   BucketVariantTag?: number;
 }
 
-type ICanBreak = {
+export type ICanBreak = {
   /**
    * Show or hide the "Can break" line on this item's tooltip. Defaults to true.
    */
   show_in_tooltip?: boolean;
 } & (
   | {
-      predicates: IBlockPredicate[];
+      predicates: IBlockStatePredicate[];
     }
-  | IBlockPredicate
+  | IBlockStatePredicate
 );
-type ICanPlaceOn = {
+export type ICanPlaceOn = {
   /**
    * Show or hide the "Can be placed on" line on this item's tooltip. Defaults to true.
    */
   show_in_tooltip?: boolean;
 } & (
   | {
-      predicates: IBlockPredicate[];
+      predicates: IBlockStatePredicate[];
     }
-  | IBlockPredicate
+  | IBlockStatePredicate
 );
 
-type IChargedProjectiles = IItemStack[];
+export type IChargedProjectiles = IItemStack[];
 
-type IContainer = {
+export type IContainer = {
   slot: number;
   item: IItemStack;
 }[];
@@ -326,33 +326,33 @@ interface IContainerLoot {
   seed?: Seed;
 }
 
-type ICustomModelData = number;
+export type ICustomModelData = number;
 
-type ICustomName = JsonString;
+export type ICustomName = JsonString;
 
-type IDamage = number;
+export type IDamage = number;
 
-type IDebugStickState = IBlockStateProperties;
+export type IDebugStickState = IBlockStateProperties;
 
-type IDyedColor =
+export type IDyedColor =
   | {
       rgb: number;
       show_in_tooltip?: boolean;
     }
   | number;
 
-type IEnchantmentGlintOverride = boolean;
+export type IEnchantmentGlintOverride = boolean;
 
-type IEnchantments = {
+export type IEnchantments = {
   [key: ResLocRef[ResourceType.Enchantment]]: number;
   show_in_tooltip?: boolean;
 };
 
-type IEntityData = INbt;
+export type IEntityData = INbt;
 
-type IFireResistant = Record<string, never>;
+export type IFireResistant = Record<string, never>;
 
-type IFireworkExplosion = {
+export type IFireworkExplosion = {
   shape: "small_ball" | "large_ball" | "star" | "creeper" | "burst";
   colors: number[];
   fade_colors: number[];
@@ -360,12 +360,12 @@ type IFireworkExplosion = {
   has_twinkle: boolean;
 };
 
-type IFireworks = {
+export type IFireworks = {
   explosions: IFireworkExplosion[];
   flight_duration?: number;
 };
 
-type IFood = {
+export type IFood = {
   nutrition: number;
   saturation: number;
   can_always_eat?: boolean;
@@ -384,11 +384,11 @@ type IFood = {
   }[];
 };
 
-type IHideAdditionalTooltip = Record<string, never>;
+export type IHideAdditionalTooltip = Record<string, never>;
 
-type IHideTooltip = Record<string, never>;
+export type IHideTooltip = Record<string, never>;
 
-type IInstrument = {
+export type IInstrument = {
   [key: ResLocRef[ResourceType.Instrument]]: {
     sound_event:
       | ResLocRef[ResourceType.SoundEvent]
@@ -401,18 +401,18 @@ type IInstrument = {
   };
 };
 
-type IIntangibleProjectile = Record<string, never>;
+export type IIntangibleProjectile = Record<string, never>;
 
-type IItemName = JsonString;
+export type IItemName = JsonString;
 
-type IJukeboxPlayable = {
+export type IJukeboxPlayable = {
   song: IAssetRef;
   show_in_tooltip?: boolean;
 };
 
-type ILock = ICustomName;
+export type ILock = ICustomName;
 
-type ILodestoneTracker = {
+export type ILodestoneTracker = {
   target?: {
     pos: FullVector3;
     dimension: ResLocRef[ResourceType.Dimension];
@@ -420,9 +420,9 @@ type ILodestoneTracker = {
   tracked?: boolean;
 };
 
-type ILore = JsonString[];
+export type ILore = JsonString[];
 
-type IMapColor = number;
+export type IMapColor = number;
 
 export enum MapMarkerType {
   Player = "player",
@@ -460,7 +460,7 @@ export enum MapMarkerType {
   JungleTemple = "jungle_temple",
   SwampHut = "swamp_hut",
 }
-type IMapDecorations = {
+export type IMapDecorations = {
   [key: string]: {
     //todo
     type: MapMarkerType;
@@ -470,22 +470,22 @@ type IMapDecorations = {
   };
 };
 
-type IMapId = number;
+export type IMapId = number;
 
-type IMaxDamage = number;
+export type IMaxDamage = number;
 
-type IMaxStackSize = number;
+export type IMaxStackSize = number;
 
-type INoteBlockSound = ResLocRef[ResourceType.SoundEvent];
+export type INoteBlockSound = ResLocRef[ResourceType.SoundEvent];
 
 /**
  * The amplifier amount of the Bad Omen effect on this ominous bottle. Must be a positive integer between 0 and 4 (inclusive).
  */
-type IOminousBottleAmplifier = RangeInclusive<4>;
+export type IOminousBottleAmplifier = RangeInclusive<4>;
 
-type IPotDecorations = unknown; //todo
+export type IPotDecorations = unknown; //todo
 
-type IPotionContents = {
+export type IPotionContents = {
   id?: unknown; //todo
   custom_color?: number;
   custom_effects?: {
@@ -498,7 +498,7 @@ type IPotionContents = {
   }[];
 };
 
-type IProfile = {
+export type IProfile = {
   name?: string;
   id?: UUIDRef;
   properties?: unknown[];
@@ -509,23 +509,23 @@ type IProfile = {
   // }[];
 };
 
-type IRarity = Rarity;
+export type IRarity = Rarity;
 
-type IRecipes = ResLocRef[ResourceType.Recipe][];
+export type IRecipes = ResLocRef[ResourceType.Recipe][];
 
-type IRepairCost = number;
+export type IRepairCost = number;
 
-type IStoredEnchantments = {
+export type IStoredEnchantments = {
   [key: ResLocRef[ResourceType.Enchantment]]: number;
   show_in_tooltip?: boolean;
 };
 
-type ISuspiciousStewEffects = {
+export type ISuspiciousStewEffects = {
   id: ResLocRef[ResourceType.MobEffect];
   duration?: number;
 }[];
 
-type ITool = {
+export type ITool = {
   default_mining_speed?: number;
   damage_per_block: number;
   rules: {
@@ -538,17 +538,17 @@ type ITool = {
   }[];
 };
 
-type ITrim = {
+export type ITrim = {
   pattern: ResLocRef[ResourceType.TrimPattern];
   material: ResLocRef[ResourceType.TrimMaterial];
   show_in_tooltip?: boolean;
 };
 
-type IUnbreakable = {
+export type IUnbreakable = {
   show_in_tooltip?: boolean;
 };
 
-type IWritableBookContent = {
+export type IWritableBookContent = {
   pages: (
     | {
         raw: JsonString;
@@ -557,7 +557,7 @@ type IWritableBookContent = {
     | string
   )[];
 };
-type IWrittenBookContent = IWritableBookContent & {
+export type IWrittenBookContent = IWritableBookContent & {
   title: {
     raw: string;
     filtered?: string;

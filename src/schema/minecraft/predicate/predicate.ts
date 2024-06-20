@@ -157,7 +157,7 @@ export interface IPredicateTableBonus {
   chances: number[];
 }
 
-export type IPredicate<T extends SubLootContext[]> = (
+export type IPredicate<T extends SubLootContext[] = []> = (
   | IPredicateAllOf<T>
   | IPredicateAnyOf<T>
   | IPredicateInverted<T>
