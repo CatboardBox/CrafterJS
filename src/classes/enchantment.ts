@@ -108,6 +108,11 @@ export class Enchantment extends ContentGenerator<
     return this;
   }
 
+  public setWeight(weight: number) {
+    this.constructedData.weight = weight;
+    return this;
+  }
+
   public setMaxLevel(level: RangeInclusive<255>) {
     this.constructedData.max_level = level;
     return this;
@@ -121,7 +126,15 @@ export class Enchantment extends ContentGenerator<
     return this;
   }
 
-  public addSupportedItem(item: { ref: IEnchantment["supported_items"] }) {
+  public addSupportedItem(
+    item:
+      | { ref: IEnchantment["supported_items"] }
+      | IEnchantment["supported_items"]
+  ) {
+    if (typeof item === "string" || Array.isArray(item)) {
+      this.constructedData.supported_items = item;
+      return this;
+    }
     this.constructedData.supported_items = item.ref;
     return this;
   }

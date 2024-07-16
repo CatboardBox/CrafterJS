@@ -2,6 +2,7 @@ import { Namespace } from "./namespace";
 import { ResLocRef, ResourceType } from "../schema/minecraft/ref";
 import { CommandInstance } from "./command/commandInstance";
 import { ContentGenerator } from "./content";
+import { minecraft } from "../defaultNamespaces";
 
 interface IFunctionConstructor {
   name: string;
@@ -45,5 +46,13 @@ export class McFunction extends ContentGenerator<ResLocRef[ResourceType.Function
 
   protected get fileExt(): string {
     return "mcfunction";
+  }
+
+  public runOnLoad(){
+    minecraft.tags.functions.onLoad.addValue(this);
+  }
+
+  public runOnTick(){
+    minecraft.tags.functions.onTick.addValue(this);
   }
 }

@@ -1,12 +1,12 @@
-import { IItem, ResLocRef, ResourceType } from "../../schema";
+import { IItem, ResLocRef, ResourceType } from "../../../schema";
 import {
   ComponentType,
   IItemComponents,
-} from "../../schema/minecraft/dataComponent";
+} from "../../../schema/minecraft/dataComponent";
 import { ArtificialContentGenerator } from "../artificialContent";
-import { Namespace } from "../namespace";
+import { Namespace } from "../../namespace";
 
-export class Item extends ArtificialContentGenerator<
+export class CustomItem extends ArtificialContentGenerator<
   ResLocRef[ResourceType.Item],
   IItem
 > {

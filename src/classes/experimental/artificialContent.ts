@@ -1,5 +1,5 @@
-import { IResLocRef } from "../schema";
-import { ContentGenerator } from "./content";
+import { IResLocRef } from "../../schema";
+import { ContentGenerator } from "../content";
 
 // let CurrentCustomModelDataIndex = 0;
 

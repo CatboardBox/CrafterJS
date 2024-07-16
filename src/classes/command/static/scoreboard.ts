@@ -1,8 +1,10 @@
+import { ScoreboardObjectiveCriteria } from "../../../schema";
+import { Scoreboard } from "../../scoreboard";
 import { CommandInstance } from "../commandInstance";
 
 export function createScoreboard(
   scoreboardName: string,
-  scoreboardType: string = "dummy",
+  scoreboardType: ScoreboardObjectiveCriteria = ScoreboardObjectiveCriteria.Dummy,
   displayName: string = ""
 ) {
   return new CommandInstance(
@@ -10,60 +12,60 @@ export function createScoreboard(
   );
 }
 
-export function removeScoreboard(scoreboardName: string) {
-  return new CommandInstance(`scoreboard objectives remove ${scoreboardName}`);
+export function removeScoreboard(scoreboard: Scoreboard) {
+  return new CommandInstance(`scoreboard objectives remove ${scoreboard.ref}`);
 }
 
 export function setScore(
   target: string,
-  scoreboardName: string,
+  scoreboard: Scoreboard,
   score: number
 ) {
   return new CommandInstance(
-    `scoreboard players set ${target} ${scoreboardName} ${score}`
+    `scoreboard players set ${target} ${scoreboard.ref} ${score}`
   );
 }
 
 export function addScore(
   target: string,
-  scoreboardName: string,
+  scoreboard: Scoreboard,
   score: number
 ) {
   return new CommandInstance(
-    `scoreboard players add ${target} ${scoreboardName} ${score}`
+    `scoreboard players add ${target} ${scoreboard.ref} ${score}`
   );
 }
 
 export function removeScore(
   target: string,
-  scoreboardName: string,
+  scoreboard: Scoreboard,
   score: number
 ) {
   return new CommandInstance(
-    `scoreboard players remove ${target} ${scoreboardName} ${score}`
+    `scoreboard players remove ${target} ${scoreboard.ref} ${score}`
   );
 }
 
-export function resetScore(target: string, scoreboardName: string) {
+export function resetScore(target: string, scoreboard: Scoreboard) {
   return new CommandInstance(
-    `scoreboard players reset ${target} ${scoreboardName}`
+    `scoreboard players reset ${target} ${scoreboard.ref}`
   );
 }
 
-export function enableTrigger(target: string, scoreboardName: string) {
+export function enableTrigger(target: string, scoreboard: Scoreboard) {
   return new CommandInstance(
-    `scoreboard players enable ${target} ${scoreboardName}`
+    `scoreboard players enable ${target} ${scoreboard.ref}`
   );
 }
 
 export function operation(
   target: string,
-  targetObjective: string,
+  targetScoreboard: Scoreboard,
   operation: "+=" | "-=" | "*=" | "/=" | "%=" | "><" | ">" | "<" | "=",
   source: string,
-  sourceObjective: string
+  sourceScoreboard: Scoreboard
 ) {
   return new CommandInstance(
-    `scoreboard players operation ${target} ${targetObjective} ${operation} ${source} ${sourceObjective}`
+    `scoreboard players operation ${target} ${targetScoreboard.ref} ${operation} ${source} ${sourceScoreboard.ref}`
   );
 }

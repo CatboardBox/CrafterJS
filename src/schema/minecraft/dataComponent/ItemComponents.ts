@@ -218,9 +218,7 @@ export enum BookGeneration {
 interface IAttributeModifiers {
   modifiers: {
     type: IAttributeRef;
-    // | TagRef[TagType.Attribute]; // check if attribute tag exists
     id: IRef;
-    uuid: UUIDRef;
     amount: number;
     operation: AttributesOperation;
     slot:

@@ -3,7 +3,6 @@ import { IResLocRef, ITranslationKey, ResourceType } from "../schema";
 import { forceSnakeCase, prettyString } from "../util";
 import { createFile } from "../filegen";
 import { logger } from "../logger";
-import { inspect } from "node:util";
 
 export interface IReference {
   ref: string;
@@ -34,10 +33,11 @@ export abstract class ContentGenerator<
 > implements IReference
 {
   protected readonly id: string;
-  protected readonly constructedData: DataType;
+  private readonly _constructedData: DataType;
   public readonly displayName: string;
   private readonly resourceType: string[];
   protected readonly namespace: Namespace;
+  protected hasData: boolean = false;
 
   constructor({
     type,
@@ -52,13 +52,18 @@ export abstract class ContentGenerator<
     this.resourceType = type;
     const displaytype = type.join("/").toLocaleUpperCase();
     this.displayName = `[${prettyString(displaytype, 12)}] ${name}`;
-    this.constructedData = JSON.parse(JSON.stringify(data)) as DataType;
+    this._constructedData = JSON.parse(JSON.stringify(data)) as DataType;
     namespace.events[EventType.Build].addListener(
       (debug) => this.build(debug),
       buildPriority
     );
   }
   protected validate(): void {}
+
+  protected get constructedData(): DataType {
+    this.hasData = true;
+    return this._constructedData;
+  }
 
   public get ref(): LocRef {
     const namespacePath = this.namespace.namespacePath;
@@ -68,7 +73,7 @@ export abstract class ContentGenerator<
   protected get translationKey(): ITranslationKey {
     const namespaceKey = this.namespace.namespaceKey;
     const typePrefix = this.resourceType.join(".");
-    return `${typePrefix}.${namespaceKey}.${this.id}` as ITranslationKey;
+    return `${typePrefix}.${namespaceKey}${this.id}` as ITranslationKey;
   }
 
   private get folderPath(): string {
@@ -81,9 +86,19 @@ export abstract class ContentGenerator<
   }
   protected compileContent(): string {
     // return inspect(this.constructedData, { depth: null, compact: false });
-    return JSON.stringify(this.constructedData, null, 2);
+    return JSON.stringify(this._constructedData, null, 2);
   }
   protected build(debug: boolean): void {
+    if (!this.hasData) {
+      logger(
+        debug,
+        `${this.namespace.displayName} -> ${prettyString(
+          this.displayName,
+          30,false
+        )} [skipped]`
+      );
+      return;
+    }
     logger(debug, `${this.namespace.displayName} -> ${this.displayName}`);
 
     this.validate();
