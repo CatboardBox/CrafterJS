@@ -1,2 +1,4 @@
+export * from "./providedNamespaces";
 export * from "./schema";
-export * from "./classes";
+export * from "./abstractions";
+

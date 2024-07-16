@@ -54,7 +54,6 @@ export const copyFile = (
 export async function generateFiles(
   category: "datapack" | "resourcepack",
   rootFolder: string,
-  debug: boolean = false,
   deleteExisting: boolean = false
 ) {
   if (deleteExisting) {
@@ -70,15 +69,15 @@ export async function generateFiles(
     foldersToGenerate = new Set(),
     filesToCopy = {},
   } = stuffToGenerate[category];
-  logger(debug, `Generating ${category}`);
-  logger(debug, `Queueing generation of ${foldersToGenerate.size} folders`);
+  logger.info( `Generating ${category}`);
+  logger.info( `Queueing generation of ${foldersToGenerate.size} folders`);
   const generateFolders = Array.from(foldersToGenerate).map((folder) =>
     fs.mkdir(rootFolder + folder, { recursive: true })
   );
   await Promise.all(generateFolders);
-  logger(debug, `Generated ${foldersToGenerate.size} folders`);
-  logger(
-    debug,
+  logger.info( `Generated ${foldersToGenerate.size} folders`);
+  logger.info(
+    
     `Queueing generation of ${Object.keys(filesToGenerate).length} files`
   );
   const generateFiles = Object.entries(filesToGenerate).map(
@@ -87,12 +86,12 @@ export async function generateFiles(
       return fs.writeFile(rootFolder + path, content);
     }
   );
-  logger(debug, `Queueing copying of ${Object.keys(filesToCopy).length} files`);
+  logger.info( `Queueing copying of ${Object.keys(filesToCopy).length} files`);
   const copyFiles = Object.entries(filesToCopy).map(([to, from]) => {
     // log("Copying file", rootFolder + to);
     return fs.copyFile(from, rootFolder + to);
   });
 
   await Promise.all([...generateFiles, ...copyFiles]);
-  logger(debug, `Generated ${Object.keys(filesToGenerate).length} files | Copied ${Object.keys(filesToCopy).length} files`);
+  logger.info( `Generated ${Object.keys(filesToGenerate).length} files | Copied ${Object.keys(filesToCopy).length} files`);
 }

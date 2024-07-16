@@ -1,4 +1,3 @@
-import { IItem } from "../../item";
 import { ResLocRef, TagRef, ResourceType, TagType } from "../../ref";
 
 export enum RecipeType {
@@ -28,5 +27,4 @@ export type IRecipeIngredient =
 
 export interface IRecipeBase {
   type: RecipeType;
-  result: IItem;
 }

@@ -1,4 +1,5 @@
 import { IDescription, RangeInclusive } from "../generic";
+import { EnchantmentSlotRef } from "../generic/slot/enchantmentSlots";
 import { ResLocRef, TagRef, ResourceType, TagType } from "../ref";
 import { IEffectComponent } from "./effects";
 
@@ -13,15 +14,6 @@ interface IXpCost {
   per_level_above_first: number;
 }
 
-export type IEnchantmentSlots =
-  | "mainhand"
-  | "offhand"
-  | "armor"
-  | "feet"
-  | "legs"
-  | "chest"
-  | "head";
-//
 export interface IEnchantment {
   description: IDescription;
   /**
@@ -29,15 +21,24 @@ export interface IEnchantment {
    *
    * Defaults to an empty list.
    */
-  exclusive_set?: ResLocRef[ResourceType.Enchantment] | ResLocRef[ResourceType.Enchantment][] | TagRef[TagType.Enchantment];
+  exclusive_set?:
+    | ResLocRef[ResourceType.Enchantment]
+    | ResLocRef[ResourceType.Enchantment][]
+    | TagRef[TagType.Enchantment];
   /**
    * Items on which this enchantment can be applied using an anvil or using the `/enchant` command.
    */
-  supported_items: ResLocRef[ResourceType.Item] | ResLocRef[ResourceType.Item][] | TagRef[TagType.Item];
+  supported_items:
+    | ResLocRef[ResourceType.Item]
+    | ResLocRef[ResourceType.Item][]
+    | TagRef[TagType.Item];
   /**
    *  Items for which this enchantment appears in an `enchanting table`.
    */
-  primary_items?: ResLocRef[ResourceType.Item] | ResLocRef[ResourceType.Item][] | TagRef[TagType.Item];
+  primary_items?:
+    | ResLocRef[ResourceType.Item]
+    | ResLocRef[ResourceType.Item][]
+    | TagRef[TagType.Item];
   /**
    * Value between 1 and 1024 (inclusive) — Controls the probability of this enchantment when enchanting.
    * The probability is determined weight/total weight * 100%, where total_weight is the sum of the weights of all available enchantments.
@@ -62,6 +63,6 @@ export interface IEnchantment {
   /**
    * List of equipment slots that this enchantment works in.
    */
-  slots: IEnchantmentSlots[];
+  slots: EnchantmentSlotRef[];
   effects: IEffectComponent;
 }

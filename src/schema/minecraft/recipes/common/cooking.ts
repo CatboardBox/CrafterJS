@@ -1,3 +1,4 @@
+import { IItem } from "../../item";
 import { IRecipeBase, IRecipeIngredient, RecipeType } from "../common";
 import { IRecipeBookSupport, RecipeCategory } from "../recipebook";
 
@@ -19,4 +20,6 @@ export interface ICookingRecipeBase extends IRecipeBase, IRecipeBookSupport {
    * The output experience of the recipe.
    */
   experience?: number;
+  
+  result: IItem;
 }

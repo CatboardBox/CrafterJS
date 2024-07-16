@@ -1,4 +1,4 @@
-import { Slot, TeamRef } from "../generic";
+import { ContainerSlot, TeamRef } from "../generic";
 import { INbt } from "../generic/nbt";
 import { ResLocRef, TagRef, ResourceType, TagType } from "../ref";
 import { IEffectPredicate } from "./effectPredicate";
@@ -11,7 +11,7 @@ export interface IEntityPredicate {
   type?: ResLocRef[ResourceType.Entity];
   distance?: IDistancePredicate;
   effects?: Record<ResLocRef[ResourceType.MobEffect], IEffectPredicate>;
-  equipment?: Partial<Record<Slot, IItemPredicate>>;
+  equipment?: Partial<Record<ContainerSlot, IItemPredicate>>;
   flags?: {
     is_baby?: boolean;
     is_on_fire?: boolean;
@@ -27,7 +27,7 @@ export interface IEntityPredicate {
   location?: ILocationPredicate;
   nbt?: INbt;
   passenger?: IEntityPredicate;
-  slots?: Partial<Record<Slot, IItemPredicate>>;
+  slots?: Partial<Record<ContainerSlot, IItemPredicate>>;
   /**
    *  Test properties of the block the entity is standing on
    */
