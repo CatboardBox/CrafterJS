@@ -3,8 +3,13 @@ import {
   IRecipeIngredientSingle,
   ISmithingTransformRecipe,
   RecipeType,
+<<<<<<< HEAD:src/abstractions/recipe/craftingStations/smithing/smithingTransformRecipe.ts
 } from "../../../../schema";
 import { Namespace } from "../../../namespace";
+=======
+} from "../../../schema";
+import { Namespace } from "../../namespace";
+>>>>>>> 4c1e0b358cc1c97c4b0aecd27606adf5a614ca6a:src/classes/recipe/smithing/smithingTransformRecipe.ts
 import { SmithingRecipeBase } from "./smithingRecipeBase";
 
 const defaultRecipe: ISmithingTransformRecipe = {

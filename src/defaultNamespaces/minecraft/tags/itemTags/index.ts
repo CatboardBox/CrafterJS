@@ -1,0 +1,1 @@
+export * as enchantable from "./enchantable";
