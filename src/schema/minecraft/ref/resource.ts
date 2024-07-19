@@ -38,7 +38,7 @@ export enum ResourceType {
   // Attribute = "attribute",
   Block = "block",
   Item = "item",
-  Entity = "entity",
+  EntityType = "entity_type",
   Fluid = "fluid",
   GameEvent = "game_event",
   Biome = "biome",

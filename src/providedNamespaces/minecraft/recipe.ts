@@ -1,0 +1,1 @@
+export * as recipe from "./generated/recipe";

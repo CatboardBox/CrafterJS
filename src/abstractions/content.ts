@@ -56,7 +56,6 @@ export abstract class ContentGenerator<
     const displaytype = type.join("/").toLocaleUpperCase();
     this.displayName = `[${prettyString(displaytype, 12)}] ${name}`;
     this._constructedData = JSON.parse(JSON.stringify(data)) as DataType;
-    this._constructedData = JSON.parse(JSON.stringify(data)) as DataType;
     namespace.events[EventType.Build].addListener(
       () => this.build(),
       buildPriority
@@ -78,7 +77,6 @@ export abstract class ContentGenerator<
     const namespaceKey = this.namespace.namespaceKey;
     const typePrefix = this.resourceType.join(".");
     return `${typePrefix}.${namespaceKey}${this.id}` as ITranslationKey;
-    return `${typePrefix}.${namespaceKey}${this.id}` as ITranslationKey;
   }
 
   private get folderPath(): string {
@@ -91,7 +89,6 @@ export abstract class ContentGenerator<
   }
   protected compileContent(): string {
     // return inspect(this.constructedData, { depth: null, compact: false });
-    return JSON.stringify(this._constructedData, null, 2);
     return JSON.stringify(this._constructedData, null, 2);
   }
   protected build(): void {

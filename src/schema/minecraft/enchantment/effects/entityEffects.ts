@@ -215,9 +215,9 @@ export type ISpawnParticlesEntityEffects = {
 export type ISummonEntityEntityEffects = {
   type: EntityEffectsType.SummonEntity;
   entity:
-    | ResLocRef[ResourceType.Entity]
-    | ResLocRef[ResourceType.Entity][]
-    | TagRef[TagType.Entity];
+    | ResLocRef[ResourceType.EntityType]
+    | ResLocRef[ResourceType.EntityType][]
+    | TagRef[TagType.EntityType];
   join_team: boolean;
 };
 

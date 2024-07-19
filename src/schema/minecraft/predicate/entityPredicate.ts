@@ -8,7 +8,7 @@ import { INumberPredicate } from "./misc";
 import { IPlayerPredicate } from "./playerPredicate";
 
 export interface IEntityPredicate {
-  type?: ResLocRef[ResourceType.Entity];
+  type?: ResLocRef[ResourceType.EntityType];
   distance?: IDistancePredicate;
   effects?: Record<ResLocRef[ResourceType.MobEffect], IEffectPredicate>;
   equipment?: Partial<Record<ContainerSlot, IItemPredicate>>;

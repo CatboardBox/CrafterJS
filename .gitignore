@@ -54,3 +54,6 @@ temp/
 
 # Stylelint cache
 .stylelintcache
+
+# codegen
+generated/

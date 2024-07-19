@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "codegen": "npx ts-node scripts/codegen/index.ts",
+    "partial-build": "tsc",
+    "build": "npm run codegen && tsc",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [
@@ -21,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^7.13.0",
     "@typescript-eslint/parser": "^7.13.0",
     "eslint": "^8.57.0",
-    "typescript": "^4.5.4"
+    "ts-node": "^10.9.2",
+    "typescript": "^4.9.5"
   }
 }
