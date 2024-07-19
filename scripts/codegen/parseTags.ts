@@ -10,6 +10,9 @@ function snakeToPascal(str: string) {
     })
     .join("");
 }
+function snakeToCamel(str: string) {
+  return snakeToPascal(str).slice(0, 1).toLowerCase() + snakeToPascal(str).slice(1);
+}
 
 function upperFirst(str: string) {
   return str.slice(0, 1).toUpperCase() + str.slice(1, str.length);
@@ -25,7 +28,7 @@ async function parseTags(
     .map((str) => `"${str}"`)
     .join(",");
   name = name.replace(".json", "");
-  return `export const ${name} = new BaseTag<TagType.${tagType}, ResourceType.${tagType}>(TagType.${tagType},"${name}", namespace,[${additionalPathData}]);`;
+  return `export const ${snakeToCamel(name)} = new BaseTag<TagType.${tagType}, ResourceType.${tagType}>(TagType.${tagType},"${name}", namespace,[${additionalPathData}]);`;
 }
 
 async function parseTagFolder(
@@ -77,7 +80,7 @@ async function parseTagFolder(
   let count = fileResults.length;
 
   directoryResults.forEach(({ name, tagCount }) => {
-    file += `export * as ${snakeToPascal(name)} from "./${name}";\n`;
+    file += `export * as ${snakeToCamel(name)} from "./${name}";\n`;
     count += tagCount;
   });
 

@@ -1,2 +1,2 @@
-export * as Function from "./functionTags";
+export * as function from "./functionTags";
 export * from "../generated/tags";
