@@ -1,6 +1,6 @@
-import { ResLocRef, ResourceType } from "../../schema";
-import { ContentGenerator } from "../content";
-import { Namespace } from "../namespace";
+import { ResLocRef, ResourceType } from "../../../schema";
+import { ContentGenerator } from "../../content";
+import { Namespace } from "../../namespace";
 
 export class ExistingRecipe extends ContentGenerator<
   ResLocRef[ResourceType.Recipe],
@@ -16,7 +16,7 @@ export class ExistingRecipe extends ContentGenerator<
   }
 
   public delete(): void {
-    this.hasData = true;
+    this.isUsed = true;
   }
 
   protected compileContent(): string {
