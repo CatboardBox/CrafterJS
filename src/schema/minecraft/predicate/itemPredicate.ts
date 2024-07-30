@@ -12,7 +12,7 @@ export interface IItemPredicate {
     | TagRef[TagType.Item];
   count?: INumberPredicate;
   components?: IItemComponents;
-  predicate?: IItemSubPredicate;
+  predicates?: IItemSubPredicate;
 }
 
 export enum IItemSubPredicateType {
@@ -34,15 +34,13 @@ export enum IItemSubPredicateType {
 export interface IItemSubPredicate {
   [IItemSubPredicateType.AttributeModifiers]?: {
     modifiers: {
-      attribute:
-        | IAttributeRef
-        | IAttributeRef[];
+      attribute?: IAttributeRef | IAttributeRef[];
       // | TagRef[TagType.Attribute]; // check if attribute tag exists
-      uuid: UUIDRef;
-      name: string;
-      amount: INumberPredicate;
-      operation: AttributesOperation;
-      slot:
+      uuid?: UUIDRef;
+      name?: string;
+      amount?: INumberPredicate;
+      operation?: AttributesOperation;
+      slot?:
         | "any"
         | "mainhand"
         | "offhand"
@@ -63,19 +61,17 @@ export interface IItemSubPredicate {
   };
   [IItemSubPredicateType.CustomData]?: ICustomData;
   [IItemSubPredicateType.Damage]?: {
-    damage: INumberPredicate;
+    damage?: INumberPredicate;
     /**
      * Tests the durability of the item in this stack, represented by the number of uses remaining (not number of uses consumed).
      */
-    durability: INumberPredicate;
+    durability?: INumberPredicate;
   };
   [IItemSubPredicateType.Enchantments]?: {
-    enchantments: {
-      enchantment?:
-        | ResLocRef[ResourceType.Enchantment]
-        | ResLocRef[ResourceType.Enchantment][]
-        | TagRef[TagType.Enchantment];
-      levels: INumberPredicate;
-    }[];
-  };
+    enchantments?:
+      | ResLocRef[ResourceType.Enchantment]
+      | ResLocRef[ResourceType.Enchantment][]
+      | TagRef[TagType.Enchantment];
+    levels?: INumberPredicate;
+  }[];
 }

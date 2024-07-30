@@ -4,21 +4,16 @@ export * from "./valueEffects";
 export * from "./miscEffects";
 export * from "./soundEffects";
 
-import { IValueEffectComponent } from "./valueEffects";
-import { IEntityEffectComponent } from "./entityEffects";
-import { IAttributeEffectComponent } from "./attributeEffects";
-import { IMiscEffectComponent } from "./miscEffects";
-import { ISoundEffectComponent } from "./soundEffects";
+import { IValueEffectComponentAll } from "./valueEffects";
+import { IEntityEffectComponentAll } from "./entityEffects";
+import { IAttributeEffectComponentAll } from "./attributeEffects";
+import { IMiscEffectComponentAll } from "./miscEffects";
+import { ISoundEffectComponentAll } from "./soundEffects";
 
-type Required<T> = {
-  [P in keyof T]-?: T[P];
-};
-
-type IEffectComponentAll = 
-  Required<IValueEffectComponent> &
-  Required<IEntityEffectComponent> &
-  Required<IAttributeEffectComponent> &
-  Required<IMiscEffectComponent> &
-  Required<ISoundEffectComponent>;
+type IEffectComponentAll = IValueEffectComponentAll &
+  IEntityEffectComponentAll &
+  IAttributeEffectComponentAll &
+  IMiscEffectComponentAll &
+  ISoundEffectComponentAll;
 
 export type IEffectComponent = Partial<IEffectComponentAll>;

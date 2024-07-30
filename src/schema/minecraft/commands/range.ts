@@ -4,7 +4,8 @@ export type RangeArgString =
   | `${number}..`
   | `..${number}`;
   export type RangeArg =
-  | { max: number; min: undefined }
-  | { min: number; max: undefined }
+  | { max: number; min?: never }
+  | { min: number; max?: never }
   | { min: number; max: number }
-  | number
+  | number;
+

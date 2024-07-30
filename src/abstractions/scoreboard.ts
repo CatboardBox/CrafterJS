@@ -3,9 +3,10 @@ import {
   IScoreboardRef,
   IScoreboardValueRef,
   ScoreboardObjectiveCriteria,
-} from "../schema/minecraft";
+} from "../schema";
 import { forceSnakeCase } from "../util";
-import { Command } from "./command";
+import { Command, CommandInstance } from "./command";
+import { EntitySelector } from "./entitySelector";
 
 export class Scoreboard {
   ref: IScoreboardRef;
@@ -18,19 +19,38 @@ export class Scoreboard {
     name = forceSnakeCase(name);
     name = namespace.rootNamespace.id + "." + name;
     this.ref = name as IScoreboardRef;
-    Command.createScoreboard(name, type, displayName).asStartupFunction(namespace);
+    Command.createScoreboard(name, type, displayName).asStartupFunction(
+      namespace
+    );
   }
 
   public createVariable(name: string, hidden: boolean = true) {
-    return new ScoreboardVariable(name, this, hidden);
+    return new ScoreboardVariable(hidden ? `"#${name}"` : `"${name}"`, this);
+  }
+  public createEntityVariable(entity: EntitySelector) {
+    return new ScoreboardVariable(entity.build(), this);
   }
 }
 
 export class ScoreboardVariable {
-  ref: IScoreboardValueRef;
-  constructor(name: string, scoreboard: Scoreboard, hidden: boolean = true) {
-    this.ref = `${hidden ? "#" : ""}${
-      scoreboard.ref
-    } ${name}` as IScoreboardValueRef;
+  readonly ref: IScoreboardValueRef;
+  readonly name: string;
+  readonly scoreboard: Scoreboard;
+  constructor(name: string, scoreboard: Scoreboard) {
+    this.name = name;
+    this.ref = `${name} ${scoreboard.ref}` as IScoreboardValueRef;
+    this.scoreboard = scoreboard;
+  }
+
+  public add(value: number): CommandInstance {
+    return Command.addScore(this.name, this.scoreboard, value);
+  }
+
+  public remove(value: number): CommandInstance {
+    return Command.removeScore(this.name, this.scoreboard, value);
+  }
+
+  public set(value: number): CommandInstance {
+    return Command.setScore(this.name, this.scoreboard, value);
   }
 }

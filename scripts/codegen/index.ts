@@ -1,8 +1,8 @@
-import { CloneRepo } from "./cloneRepo";
+import { cloneRepo } from "./cloneRepo";
 import * as path from "path";
 
 const cloneDir = path.resolve(__dirname, "../temp/repo");
-CloneRepo(cloneDir);
+cloneRepo(cloneDir);
 console.log();
 
 const datapackDir = `${cloneDir}/data/minecraft`;

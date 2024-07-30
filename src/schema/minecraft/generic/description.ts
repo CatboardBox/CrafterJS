@@ -1,9 +1,9 @@
+import JsonText from "../jsonText";
 import { ITranslationKey } from "../ref";
-import { JsonString } from "./jsonString";
 
 interface description {
   translate: ITranslationKey;
-  fallback?: JsonString;
+  fallback?: JsonText;
 }
 
-export type IDescription = description | JsonString;
+export type IDescription = description | JsonText;

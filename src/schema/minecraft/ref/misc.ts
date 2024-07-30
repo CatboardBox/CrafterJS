@@ -19,3 +19,7 @@ export type IAdvancementCriteriaRef = IRef & {
 export type IPlayerStatisticRef = IRef & {
   readonly __playerStatisticRefBrand: unique symbol;
 };
+
+export type IDataStoreRef = IRef & {
+  readonly __dataStoreRefBrand: unique symbol;
+};

@@ -23,9 +23,11 @@ import { asStartupFunction } from "./asStartupFunction";
 // }
 
 export class CommandInstance {
+  public readonly isMacro: boolean;
   public readonly command: string;
-  constructor(command: string) {
+  constructor(command: string , isMacro: boolean = false) {
     this.command = command;
+    this.isMacro = isMacro;
   }
 
   public asInlineFunction(

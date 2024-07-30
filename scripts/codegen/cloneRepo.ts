@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
 import * as fs from "fs";
 
-export function CloneRepo(cloneDir: string) {
+export function cloneRepo(cloneDir: string) {
   const repoUrl = "https://github.com/misode/mcmeta.git";
   const branchName = "data";
 

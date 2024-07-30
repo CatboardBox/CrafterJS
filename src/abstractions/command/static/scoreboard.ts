@@ -8,7 +8,7 @@ export function createScoreboard(
   displayName: string = ""
 ) {
   return new CommandInstance(
-    `scoreboard objectives add ${scoreboardName} ${scoreboardType} ${displayName}`
+    `scoreboard objectives add ${scoreboardName} ${scoreboardType} "${displayName}"`
   );
 }
 
@@ -66,6 +66,6 @@ export function operation(
   sourceScoreboard: Scoreboard
 ) {
   return new CommandInstance(
-    `scoreboard players operation ${target} ${targetScoreboard.ref} ${operation} ${source} ${sourceScoreboard.ref}`
+    `scoreboard players operation ${target} ${targetScoreboard.ref} ${operation} "${source}" ${sourceScoreboard.ref}`
   );
 }

@@ -1,5 +1,4 @@
 import { IBlockStatePropertiesPredicate } from "../generic";
-import { SubLootContext } from "../lootContext/common";
 import { ILevelBasedValue, INumberProvider } from "../misc";
 import { ResLocRef, ResourceType } from "../ref";
 import { IDamageTypePredicate } from "./damageTypePredicate";
@@ -7,21 +6,20 @@ import { IEntityPredicate } from "./entityPredicate";
 import { IItemPredicate } from "./itemPredicate";
 import { ILocationPredicate } from "./locationPredicate";
 import { PredicateCondition } from "./predicateConditions";
-import { IFilteredPredicate } from "./predicateDependencies";
 
-export interface IPredicateAllOf<T extends SubLootContext[]> {
+export interface IPredicateAllOf {
   condition: PredicateCondition.AllOf;
-  terms: IPredicate<T>[];
+  terms: IPredicate[];
 }
 
-export interface IPredicateAnyOf<T extends SubLootContext[]> {
+export interface IPredicateAnyOf {
   condition: PredicateCondition.AnyOf;
-  terms: IPredicate<T>[];
+  terms: IPredicate[];
 }
 
-export interface IPredicateInverted<T extends SubLootContext[]> {
+export interface IPredicateInverted {
   condition: PredicateCondition.Inverted;
-  term: IPredicate<T>;
+  term: IPredicate;
 }
 
 export interface IPredicateReference {
@@ -156,11 +154,15 @@ export interface IPredicateTableBonus {
    */
   chances: number[];
 }
+// // Use a mapped type to enforce exactly one type
+// type ExactlyOne<T, K extends keyof T = keyof T> = K extends keyof T
+//   ? { [P in K]: T[P] } & Partial<Record<Exclude<keyof T, K>, never>>
+//   : never;
 
-export type IPredicate<T extends SubLootContext[] = []> = (
-  | IPredicateAllOf<T>
-  | IPredicateAnyOf<T>
-  | IPredicateInverted<T>
+export type IAllPredicate =
+  | IPredicateAllOf
+  | IPredicateAnyOf
+  | IPredicateInverted
   | IPredicateReference
   | IPredicateEntityProperties
   | IPredicateRandomChance
@@ -176,6 +178,6 @@ export type IPredicate<T extends SubLootContext[] = []> = (
   | IPredicateMatchTool
   | IPredicateRandomChanceWithEnchantedBonus
   | IPredicateSurvivesExplosion
-  | IPredicateTableBonus
-) &
-  IFilteredPredicate<T>;
+  | IPredicateTableBonus;
+  
+export type IPredicate = IAllPredicate;

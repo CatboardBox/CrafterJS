@@ -2,23 +2,28 @@ import { PlayerRef, UUIDRef } from "../generic";
 import { IScoreboardRef } from "../scoreboard";
 import { ILevelBasedValue } from "./levelBasedValue";
 
-enum NumberProviderType {
-  Constant = "constant",
-  Uniform = "uniform",
-  Binomial = "binomial",
-  Score = "score",
-  Storage = "storage",
-  EnchantmentLevel = "enchantment_level",
+export enum NumberProviderType {
+  Constant = "minecraft:constant",
+  Uniform = "minecraft:uniform",
+  Binomial = "minecraft:binomial",
+  Score = "minecraft:score",
+  Storage = "minecraft:storage",
+  EnchantmentLevel = "minecraft:enchantment_level",
 }
 
-type ConstantNumberProvider = number;
+export interface IConstantNumberProvider {
+  readonly type: NumberProviderType.Constant;
+  readonly value: number;
+}
 
-interface UniformNumberProvider {
+export interface IUniformNumberProvider {
+  readonly type: NumberProviderType.Uniform;
   readonly min: INumberProvider;
   readonly max: INumberProvider;
 }
 
-interface BinomialNumberProvider {
+export interface IBinomialNumberProvider {
+  readonly type: NumberProviderType.Binomial;
   readonly n: INumberProvider;
   readonly p: INumberProvider;
 }
@@ -28,8 +33,9 @@ export enum TargetType {
   Context = "context",
 }
 
-interface ScoreNumberProvider {
-  target:
+export interface IScoreNumberProvider {
+  readonly type: NumberProviderType.Score;
+  readonly target:
     | {
         type: TargetType.Fixed;
         name: UUIDRef | PlayerRef;
@@ -38,41 +44,33 @@ interface ScoreNumberProvider {
         type: TargetType.Context;
         target: "this" | "killer" | "direct_killer" | "killer_player";
       };
-  score: IScoreboardRef;
-  scale?: number;
+  readonly score: IScoreboardRef;
+  readonly scale?: number;
 }
 
-interface StorageNumberProvider {
-  storage: string; //todo
-  path: string; //todo
+export interface IStorageNumberProvider {
+  readonly type: NumberProviderType.Storage;
+  readonly storage: string; //todo
+  readonly path: string; //todo
 }
 
-interface EnchantmentLevelNumberProvider {
+export interface IEnchantmentLevelNumberProvider {
+  readonly type: NumberProviderType.EnchantmentLevel;
   readonly amount: ILevelBasedValue;
 }
 
-type StructuredNumberProvider<T extends NumberProviderType, U> = {
-  readonly type: T;
-} & U;
-
 export type INumberProviderShortcuts =
-  | ConstantNumberProvider
-  | UniformNumberProvider;
+  | number
+  | {
+      min: number;
+      max: number;
+    };
 
 export type INumberProvider =
   | INumberProviderShortcuts
-  | StructuredNumberProvider<
-      NumberProviderType.Constant,
-      { value: ConstantNumberProvider } // special case for constant
-    >
-  | StructuredNumberProvider<NumberProviderType.Uniform, UniformNumberProvider>
-  | StructuredNumberProvider<
-      NumberProviderType.Binomial,
-      BinomialNumberProvider
-    >
-  | StructuredNumberProvider<NumberProviderType.Score, ScoreNumberProvider>
-  | StructuredNumberProvider<NumberProviderType.Storage, StorageNumberProvider>
-  | StructuredNumberProvider<
-      NumberProviderType.EnchantmentLevel,
-      EnchantmentLevelNumberProvider
-    >;
+  | IConstantNumberProvider
+  | IUniformNumberProvider
+  | IBinomialNumberProvider
+  | IScoreNumberProvider
+  | IStorageNumberProvider
+  | IEnchantmentLevelNumberProvider;

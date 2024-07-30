@@ -1,6 +1,5 @@
 import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
-import { IEffectComponentMappingType } from "../misc";
 import { IAttributeRef, ResLocRef, ResourceType } from "../../ref";
 
 export enum AttributesOperation {
@@ -15,11 +14,8 @@ export interface IAttributeEffects {
   id: ResLocRef[ResourceType.Enchantment]; // seems like a ref but '.' instead of '/' --- // todo
 }
 
-type IAttributeEffectComponentTypes = EffectComponent.Attributes;
+export type IAttributeEffectComponentAll = {
+  [EffectComponent.Attributes]: IAttributeEffects[];
+}
 
-type IAttributeComponentAll = IEffectComponentMappingType<
-  IAttributeEffectComponentTypes,
-  IAttributeEffects
->;
-
-export type IAttributeEffectComponent = Partial<IAttributeComponentAll>;
+export type IAttributeEffectComponent = Partial<IAttributeEffectComponentAll>;

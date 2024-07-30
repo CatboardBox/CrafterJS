@@ -1,3 +1,4 @@
+export * from "./advancements";
 export * from "./commands";
 export * from "./dataComponent";
 export * from "./enchantment";
@@ -14,3 +15,4 @@ export * from "./item";
 export * from "./tag";
 
 export * from "./datapack";
+export * from "./jsonText";

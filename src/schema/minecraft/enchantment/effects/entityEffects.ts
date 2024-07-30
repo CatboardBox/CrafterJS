@@ -2,10 +2,10 @@ import { FullVector3, IBlockStateProperties } from "../../generic";
 import { EffectComponent } from "../effectComponent";
 import { ILevelBasedValue } from "../../misc";
 import { RelativeEntity } from "../entity";
-import { IBlockStateProvider, IEffectComponentMappingType } from "../misc";
+import { IBlockStateProvider } from "../misc";
 import { ResLocRef, TagRef, ResourceType, TagType } from "../../ref";
 import { IFloatProvider } from "../../misc";
-import { IBlockPredicate } from "../../predicate";
+import { IBlockPredicate, IPredicate } from "../../predicate";
 
 export enum EntityEffectsType {
   /**
@@ -247,6 +247,7 @@ interface IEntityEffectComponentStandardContent {
    * Determines how to modify the value.
    */
   effect: IEntityEffects;
+  requirements?: IPredicate;
 }
 
 interface IEntityEffectPostAttackContent
@@ -255,13 +256,10 @@ interface IEntityEffectPostAttackContent
   affected: RelativeEntity;
 }
 
-type IEntityEffectComponentAll = IEffectComponentMappingType<
-  IEntityEffectComponentTypes,
-  IEntityEffectComponentStandardContent
-> &
-  IEffectComponentMappingType<
-    EffectComponent.PostAttack,
-    IEntityEffectPostAttackContent
-  >;
+export type IEntityEffectComponentAll = {
+  [key in IEntityEffectComponentTypes]: IEntityEffectComponentStandardContent[];
+} & {
+  [EffectComponent.PostAttack]: IEntityEffectPostAttackContent[];
+};
 
 export type IEntityEffectComponent = Partial<IEntityEffectComponentAll>;

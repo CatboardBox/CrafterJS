@@ -1,5 +1,5 @@
 import { EventType, Namespace } from "./namespace";
-import { IResLocRef, ITranslationKey, ResourceType } from "../schema";
+import { IRef, IResLocRef, ITranslationKey, ResourceType } from "../schema";
 import { forceSnakeCase, prettyString } from "../util";
 import { createFile } from "../filegen";
 import { logger } from "../logger";
@@ -20,6 +20,51 @@ interface IContentGeneratorConstructor<DataType> {
    */
   buildPriority?: number;
 }
+interface IDataGeneratorConstructor<DataType> {
+  id?: string;
+  name: string;
+  namespace: Namespace;
+  data: DataType;
+  /**
+   * The priority of the build event;
+   * should not effect on build result, mainly for debug order
+   */
+  buildPriority?: number;
+}
+
+// todo naming
+export abstract class DataConstructor<
+  LocRef extends IRef,
+  DataType = Record<string, unknown>
+> implements IReference
+{
+  protected readonly id: string;
+  protected readonly _constructedData: DataType;
+  public readonly displayName: string;
+  protected readonly namespace: Namespace;
+
+  constructor({
+    name,
+    id = name,
+    namespace,
+    data,
+  }: IDataGeneratorConstructor<DataType>) {
+    this.id = forceSnakeCase(id);
+    this.namespace = namespace;
+    this.displayName = name;
+    this._constructedData = JSON.parse(JSON.stringify(data)) as DataType;
+  }
+
+  protected get constructedData(): DataType {
+    return this._constructedData;
+  }
+
+  public get ref(): LocRef {
+    const namespacePath = this.namespace.namespacePath;
+    return `${namespacePath}${this.id}` as LocRef;
+  }
+}
+
 /**
  * When creating content, please ensure that the file in which the content is generated gets imported eventually
  *
@@ -30,13 +75,8 @@ interface IContentGeneratorConstructor<DataType> {
 export abstract class ContentGenerator<
   LocRef extends IResLocRef,
   DataType = Record<string, unknown>
-> implements IReference
-{
-  protected readonly id: string;
-  private readonly _constructedData: DataType;
-  public readonly displayName: string;
+> extends DataConstructor<LocRef, DataType> {
   private readonly resourceType: string[];
-  protected readonly namespace: Namespace;
   /**
    * Skip unused content to reduce file size
    */
@@ -50,12 +90,10 @@ export abstract class ContentGenerator<
     data,
     buildPriority,
   }: IContentGeneratorConstructor<DataType>) {
-    this.id = forceSnakeCase(id);
-    this.namespace = namespace;
-    this.resourceType = type;
     const displaytype = type.join("/").toLocaleUpperCase();
-    this.displayName = `[${prettyString(displaytype, 12)}] ${name}`;
-    this._constructedData = JSON.parse(JSON.stringify(data)) as DataType;
+    name = `[${prettyString(displaytype, 12)}] ${name}`;
+    super({ name, id, namespace, data });
+    this.resourceType = type;
     namespace.events[EventType.Build].addListener(
       () => this.build(),
       buildPriority
@@ -63,14 +101,14 @@ export abstract class ContentGenerator<
   }
   protected validate(): void {}
 
-  protected get constructedData(): DataType {
+  public get ref(): LocRef {
     this.isUsed = true;
-    return this._constructedData;
+    return super.ref;
   }
 
-  public get ref(): LocRef {
-    const namespacePath = this.namespace.namespacePath;
-    return `${namespacePath}${this.id}` as LocRef;
+  protected get constructedData(): DataType {
+    this.isUsed = true;
+    return super.constructedData;
   }
 
   protected get translationKey(): ITranslationKey {
@@ -89,22 +127,30 @@ export abstract class ContentGenerator<
   }
   protected compileContent(): string {
     // return inspect(this.constructedData, { depth: null, compact: false });
-    return JSON.stringify(this._constructedData, null, 2);
+    return JSON.stringify(this.constructedData, null, 2);
   }
   protected build(): void {
     if (!this.isUsed) {
-      logger.info(
-        `${this.namespace.displayName} -> ${prettyString(
-          this.displayName,
-          30,
-          false
-        )} [skipped]`
-      );
+      this.logSkipBuild();
       return;
     }
     logger.info(`${this.namespace.displayName} -> ${this.displayName}`);
 
     this.validate();
+    this.writeContent();
+  }
+  protected logSkipBuild(): void {
+    logger.info(
+      `${this.namespace.displayName} -> ${prettyString(
+        this.displayName,
+        30,
+        false
+      )} [skipped]`
+    );
+    return;
+  }
+
+  private writeContent(): void {
     const fileExtension = this.fileExt;
     const content = this.compileContent();
     createFile(

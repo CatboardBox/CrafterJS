@@ -1,11 +1,9 @@
+import { IPredicate } from "../../predicate";
 import { EffectComponent } from "../effectComponent";
-import { IEffectComponentMappingType } from "../misc";
 import { IAttributeEffects } from "./attributeEffects";
 import { IEntityEffects } from "./entityEffects";
 
-type IEmptyObject = {
-  effect: Record<string, never>;
-};
+type IEmptyObject = Record<string, never>;
 
 // Locational Effects
 
@@ -19,20 +17,16 @@ interface ILocationBasedEffectComponentStandardContent {
     | ({ type: "minecraft:attribute" } & IAttributeEffects);
 }
 
-type IMiscComponentAll =
-  // Damage Immunity Effects
-  IEffectComponentMappingType<
-    EffectComponent.DamageImmunity,
-    { effect: IEmptyObject }
-  > &
-    // Misc Effects
-    IEffectComponentMappingType<
-      EffectComponent.PreventEquipmentDrop | EffectComponent.PreventArmorChange,
-      IEmptyObject
-    > &
-    IEffectComponentMappingType<
-      EffectComponent.LocationChanged,
-      ILocationBasedEffectComponentStandardContent
-    >;
-
-export type IMiscEffectComponent = Partial<IMiscComponentAll>;
+export type IMiscEffectComponentAll = {
+  [EffectComponent.DamageImmunity]: {
+    effect: IEmptyObject;
+    requirements?: IPredicate;
+  }[];
+} & {
+  [EffectComponent.PreventEquipmentDrop]: IEmptyObject;
+  [EffectComponent.PreventArmorChange]: IEmptyObject;
+  [EffectComponent.LocationChanged]: (ILocationBasedEffectComponentStandardContent & {
+    requirements?: IPredicate;
+  })[];
+};
+export type IMiscEffectComponent = Partial<IMiscEffectComponentAll>;

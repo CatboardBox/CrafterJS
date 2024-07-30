@@ -1,8 +1,10 @@
-import { IItem, ResLocRef, ResourceType } from "../../../schema";
 import {
+  IItem,
+  ResLocRef,
+  ResourceType,
   ComponentType,
   IItemComponents,
-} from "../../../schema/minecraft/dataComponent";
+} from "../../../schema";
 import { ArtificialContentGenerator } from "../artificialContent";
 import { Namespace } from "../../namespace";
 

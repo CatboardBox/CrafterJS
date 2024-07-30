@@ -7,7 +7,7 @@
   "scripts": {
     "codegen": "npx ts-node scripts/codegen/index.ts",
     "partial-build": "tsc",
-    "build": "npm run codegen && tsc",
+    "build": "npm run codegen && tsc && npm run lint",
     "lint": "eslint . --ext .ts"
   },
   "keywords": [

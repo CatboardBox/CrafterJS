@@ -1,32 +1,33 @@
 import { ResLocRef, ResourceType, Position, Vector3 } from "../../../schema";
 import { CommandInstance } from "../commandInstance";
 import {
-  AsRelativePosition,
+  asRelativePosition,
   PositionToString,
-  Vector3ToString,
+  vector3ToString,
 } from "../../conversions";
 
 export interface IParticleParams {
-  particle: ResLocRef[ResourceType.Particle];
-  delta: Vector3;
-  position?: Position;
-  speed?: number;
-  count?: number;
-  force?: boolean;
-  player?: string;
+  particle: ResLocRef[ResourceType.Particle] | `$(${string})`;
+  delta: Vector3 | `$(${string})`;
+  position?: Position | `$(${string})`;
+  speed?: number | `$(${string})`;
+  count?: number | `$(${string})`;
+  force?: boolean | `$(${string})`;
+  player?: string | `$(${string})`;
 }
 
 export function createParticle({
   particle,
   delta,
-  position = AsRelativePosition([0, 0, 0]),
+  position = asRelativePosition([0, 0, 0]),
   speed = 0,
   count = 1,
   force = false,
   player = "",
 }: IParticleParams): CommandInstance {
-  const positionStr = PositionToString(position);
-  const deltaStr = Vector3ToString(delta);          
+  const positionStr =
+    typeof position === "string" ? position : PositionToString(position);
+  const deltaStr = typeof delta === "string" ? delta : vector3ToString(delta);
   const forceStr = force ? "force" : "normal";
   return new CommandInstance(
     `particle ${particle} ${positionStr} ${deltaStr} ${speed} ${count} ${forceStr} ${player}`

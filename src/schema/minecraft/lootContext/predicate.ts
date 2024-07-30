@@ -1,4 +1,4 @@
-import { SubLootContext } from "./common";
+// import { SubLootContext } from "./common";
 
 //https://minecraft.wiki/w/Loot_context
 export enum LootContext {
@@ -14,59 +14,61 @@ export enum LootContext {
   HitBlock = "hit_block",
 }
 
-type DefaultLootContextSubtypeMapping = {
-  [LootContext.Command]: [[SubLootContext.Origin]];
-  [LootContext.Selector]: [[SubLootContext.Origin, SubLootContext.ThisEntity]];
-  [LootContext.AdvancementEntity]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.Origin
-  ];
-  [LootContext.AdvancementLocation]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.Origin,
-    SubLootContext.Tool,
-    SubLootContext.BlockState
-  ];
-  [LootContext.BlockUse]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.Origin,
-    SubLootContext.BlockState
-  ];
-  [LootContext.EnchantedDamage]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.EnchantmentLevel,
-    SubLootContext.Origin,
-    SubLootContext.DamageSource
-  ];
-  [LootContext.EnchantedItem]: [
-    SubLootContext.Tool,
-    SubLootContext.EnchantmentLevel
-  ];
-  [LootContext.EnchantedLocation]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.Origin,
-    SubLootContext.EnchantmentLevel,
-    SubLootContext.EnchantmentActiveStatus
-  ];
-  [LootContext.EnchantedEntity]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.EnchantmentLevel,
-    SubLootContext.Origin
-  ];
-  [LootContext.HitBlock]: [
-    SubLootContext.ThisEntity,
-    SubLootContext.EnchantmentLevel,
-    SubLootContext.Origin,
-    SubLootContext.BlockState
-  ];
-};
+// // always available
+// type DefaultLootContextSubtypeMapping = {
+//   [LootContext.Command]: [[SubLootContext.Origin]];
+//   [LootContext.Selector]: [[SubLootContext.Origin, SubLootContext.ThisEntity]];
+//   [LootContext.AdvancementEntity]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.Origin
+//   ];
+//   [LootContext.AdvancementLocation]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.Origin,
+//     SubLootContext.Tool,
+//     SubLootContext.BlockState
+//   ];
+//   [LootContext.BlockUse]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.Origin,
+//     SubLootContext.BlockState
+//   ];
+//   [LootContext.EnchantedDamage]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.EnchantmentLevel,
+//     SubLootContext.Origin,
+//     SubLootContext.DamageSource
+//   ];
+//   [LootContext.EnchantedItem]: [
+//     SubLootContext.Tool,
+//     SubLootContext.EnchantmentLevel
+//   ];
+//   [LootContext.EnchantedLocation]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.Origin,
+//     SubLootContext.EnchantmentLevel,
+//     SubLootContext.EnchantmentActiveStatus
+//   ];
+//   [LootContext.EnchantedEntity]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.EnchantmentLevel,
+//     SubLootContext.Origin
+//   ];
+//   [LootContext.HitBlock]: [
+//     SubLootContext.ThisEntity,
+//     SubLootContext.EnchantmentLevel,
+//     SubLootContext.Origin,
+//     SubLootContext.BlockState
+//   ];
+// };
 
-type ExtraLootContextSubtypeMapping = {
-  [LootContext.Command]: [SubLootContext.ThisEntity];
-  [LootContext.EnchantedDamage]: [
-    SubLootContext.AttackerEntity,
-    SubLootContext.DirectAttackerEntity,
-    SubLootContext.AttackingPlayer
-  ];
-};
-export type LootContextSubtypeMapping = DefaultLootContextSubtypeMapping & ExtraLootContextSubtypeMapping;
+// // might not be always available
+// type ExtraLootContextSubtypeMapping = {
+//   [LootContext.Command]: [SubLootContext.ThisEntity];
+//   [LootContext.EnchantedDamage]: [
+//     SubLootContext.AttackerEntity,
+//     SubLootContext.DirectAttackerEntity,
+//     SubLootContext.AttackingPlayer
+//   ];
+// };
+// export type LootContextSubtypeMapping = DefaultLootContextSubtypeMapping & ExtraLootContextSubtypeMapping;

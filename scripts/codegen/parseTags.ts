@@ -1,22 +1,7 @@
 import * as fs from "fs/promises";
+import { snakeToCamel, snakeToPascal } from "../Util";
 
 // spaghetti code :D
-
-function snakeToPascal(str: string) {
-  return str
-    .split("_")
-    .map((str) => {
-      return upperFirst(str.split("/").map(upperFirst).join("/"));
-    })
-    .join("");
-}
-function snakeToCamel(str: string) {
-  return snakeToPascal(str).slice(0, 1).toLowerCase() + snakeToPascal(str).slice(1);
-}
-
-function upperFirst(str: string) {
-  return str.slice(0, 1).toUpperCase() + str.slice(1, str.length);
-}
 
 async function parseTags(
   name: string,
@@ -112,7 +97,7 @@ async function parseTagFolder(
   };
 }
 
-export default async function Main(inputPath: string, outputPath: string) {
+export default async function main(inputPath: string, outputPath: string) {
   const { tagCount } = await parseTagFolder(
     `${inputPath}/tags`,
     `${outputPath}/tags`,

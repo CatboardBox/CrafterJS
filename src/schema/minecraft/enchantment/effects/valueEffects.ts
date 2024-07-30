@@ -1,6 +1,6 @@
 import { EnchantedEntity } from "../entity";
 import { EffectComponent } from "../effectComponent";
-import { IEffectComponentMappingType } from "../misc";
+import { IPredicate } from "../../predicate";
 
 export enum ValueEffectTypes {
   /**
@@ -70,21 +70,21 @@ interface IValueEffectComponentStandardContent {
    * Determines how to modify the value.
    */
   effect: IValueEffect;
+
+  requirements?: IPredicate;
 }
 
-type IValueEffectComponentAll = IEffectComponentMappingType<
-  ValueEffectComponentTypes,
-  IValueEffectComponentStandardContent
-> &
-  IEffectComponentMappingType<
-    EffectComponent.EquipmentDrops,
-    IValueEffectComponentStandardContent & {
-      /**
-       * One of attacker, or victim. — which entity has to have the enchantment
-       */
-      enchanted: EnchantedEntity;
-    }
-  > &
-  IEffectComponentMappingType<DirectValueEffectComponentTypes, IValueEffect>;
+export type IValueEffectComponentAll = {
+  [key in ValueEffectComponentTypes]: IValueEffectComponentStandardContent[];
+} & {
+  [key in DirectValueEffectComponentTypes]: IValueEffect[];
+} & {
+  [EffectComponent.EquipmentDrops]: (IValueEffectComponentStandardContent & {
+    /**
+     * One of attacker, or victim. — which entity has to have the enchantment
+     */
+    enchanted: EnchantedEntity;
+  })[];
+};
 
 export type IValueEffectComponent = Partial<IValueEffectComponentAll>;

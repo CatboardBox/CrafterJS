@@ -1,9 +1,10 @@
 import { Gamemode } from "../misc/gamemode";
 import { IAdvancementCriteriaRef, IPlayerStatisticRef, ResLocRef, ResourceType } from "../ref";
-import { IEntityPredicate } from "./entityPredicate";
+import { IEntityPredicate, TypeSpecificEntityPredicate } from "./entityPredicate";
 import { INumberPredicate } from "./misc";
 
 export interface IPlayerPredicate {
+  type : TypeSpecificEntityPredicate.Player;
   looking_at?: IEntityPredicate;
   advancements?: Record<ResLocRef[ResourceType.Advancement], IAdvancementPredicate>;
   gamemode?: Gamemode[];

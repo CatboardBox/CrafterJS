@@ -49,10 +49,10 @@ export class McFunction extends ContentGenerator<ResLocRef[ResourceType.Function
   }
 
   public runOnLoad(){
-    minecraft.tags.function.onLoad.addValue(this);
+    minecraft.tags.function.load.addValue(this);
   }
 
   public runOnTick(){
-    minecraft.tags.function.onTick.addValue(this);
+    minecraft.tags.function.tick.addValue(this);
   }
 }

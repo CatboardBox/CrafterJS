@@ -1,5 +1,6 @@
 import { FullVector3, Gamemode, IPredicate, RangeArg } from "../../schema";
 import { asRange } from "../conversions";
+import { NbtTag } from "../nbtTag";
 
 interface EntitySelectorCommandIntrinsic {
   SingleEntity: boolean;
@@ -28,6 +29,71 @@ export class EntitySelector<
   baseSelector: "@a" | "@e" | "@p" | "@r" | "@s" | "@n";
   selectors: EntitySelectorArgs = {};
 
+  public build() {
+    const params: string[] = [];
+    if (this.selectors.distance) {
+      params.push(`distance=${asRange(this.selectors.distance)}`);
+    }
+    if (this.selectors.bounds) {
+      params.push(
+        `x=${this.selectors.bounds.from[0]},y=${this.selectors.bounds.from[1]},z=${this.selectors.bounds.from[2]},dx=${this.selectors.bounds.to[0]},dy=${this.selectors.bounds.to[1]},dz=${this.selectors.bounds.to[2]}`
+      );
+    }
+    if (this.selectors.scores) {
+      params.push("scores={");
+      for (const [key, value] of Object.entries(this.selectors.scores)) {
+        params.push(`${key}=${asRange(value)}`);
+      }
+      params.push("}");
+    }
+    if (this.selectors.tags) {
+      for (const tag of this.selectors.tags) {
+        params.push(`tag=${tag}`);
+      }
+    }
+    if (this.selectors.team) {
+      params.push(`team=${this.selectors.team}`);
+    }
+    if (this.selectors.limit) {
+      params.push(`limit=${this.selectors.limit}`);
+    }
+    if (this.selectors.sort) {
+      params.push(`sort=${this.selectors.sort}`);
+    }
+    if (this.selectors.level) {
+      params.push(`level=${asRange(this.selectors.level)}`);
+    }
+    if (this.selectors.gameMode) {
+      params.push(`gamemode=${this.selectors.gameMode}`);
+    }
+    if (this.selectors.rotation) {
+      params.push(
+        `x_rotation=${asRange(this.selectors.rotation.x)},y_rotation=${asRange(
+          this.selectors.rotation.y
+        )}`
+      );
+    }
+    if (this.selectors.type) {
+      for (const type of this.selectors.type) {
+        params.push(`type=${type}`);
+      }
+    }
+    if (this.selectors.nbt) {
+      params.push(`nbt=${this.selectors.nbt}`);
+    }
+    if (this.selectors.advancements) {
+      params.push(`advancements=${this.selectors.advancements}`);
+    }
+    if (this.selectors.predicates) {
+      for (const predicate of this.selectors.predicates) {
+        params.push(`predicate=${predicate}`);
+      }
+    }
+    return params.length > 0
+      ? `${this.baseSelector}[${params.join(",")}]`
+      : this.baseSelector;
+  }
+
   private constructor(
     baseSelector: "@a" | "@e" | "@p" | "@r" | "@s" | "@n",
     selectors?: EntitySelectorArgs
@@ -36,42 +102,42 @@ export class EntitySelector<
     this.selectors = selectors || {};
   }
 
-  public static allPlayers() {
+  public static get allPlayers() {
     return new EntitySelector<{
       SingleEntity: false;
       PlayersOnly: true;
     }>("@a");
   }
 
-  public static allEntities() {
+  public static get allEntities() {
     return new EntitySelector<{
       SingleEntity: false;
       PlayersOnly: false;
     }>("@e");
   }
 
-  public static nearestPlayer() {
+  public static get nearestPlayer() {
     return new EntitySelector<{
       SingleEntity: true;
       PlayersOnly: true;
     }>("@p");
   }
 
-  public static nearestEntity() {
+  public static get nearestEntity() {
     return new EntitySelector<{
       SingleEntity: true;
       PlayersOnly: false;
     }>("@n");
   }
 
-  public static randomPlayer() {
+  public static get randomPlayer() {
     return new EntitySelector<{
       SingleEntity: true;
       PlayersOnly: false;
     }>("@r");
   }
 
-  public static self() {
+  public static get self() {
     return new EntitySelector<{
       SingleEntity: true;
       PlayersOnly: false;
@@ -94,9 +160,9 @@ export class EntitySelector<
     return this;
   }
 
-  public whereTag(tag: string, inverted: boolean = false) {
+  public whereTag(tag: NbtTag, absent: boolean = false) {
     if (!this.selectors.tags) this.selectors.tags = [];
-    this.selectors.tags.push(inverted ? `!${tag}` : tag);
+    this.selectors.tags.push(absent ? `!${tag.tagName}` : tag.tagName);
     return this;
   }
 
@@ -193,70 +259,70 @@ export class EntitySelector<
     if (selectors.scores) {
       selector += "scores={";
       for (const [key, value] of Object.entries(selectors.scores)) {
-        selector += `${key}=${asRange(value)},`;
+        selector += `${key}=${asRange(value)}`;
       }
       selector += "}";
     }
 
     if (selectors.tags) {
       for (const tag of selectors.tags) {
-        selector += `tag=${tag},`;
+        selector += `tag=${tag}`;
       }
     }
 
     if (selectors.team) {
-      selector += `team=${selectors.team},`;
+      selector += `team=${selectors.team}`;
     }
 
     if (selectors.limit) {
-      selector += `limit=${selectors.limit},`;
+      selector += `limit=${selectors.limit}`;
     }
 
     if (selectors.sort) {
-      selector += `sort=${selectors.sort},`;
+      selector += `sort=${selectors.sort}`;
     }
 
     if (selectors.level) {
-      selector += `level=${asRange(selectors.level)},`;
+      selector += `level=${asRange(selectors.level)}`;
     }
 
     if (selectors.gameMode) {
-      selector += `gamemode=${selectors.gameMode},`;
+      selector += `gamemode=${selectors.gameMode}`;
     }
 
     if (selectors.rotation) {
       selector += `x_rotation=${asRange(
         selectors.rotation.x
-      )},y_rotation=${asRange(selectors.rotation.y)},`;
+      )},y_rotation=${asRange(selectors.rotation.y)}`;
     }
 
     if (selectors.type) {
       for (const type of selectors.type) {
-        selector += `type=${type},`;
+        selector += `type=${type}`;
       }
     }
 
     if (selectors.nbt) {
-      selector += `nbt=${selectors.nbt},`;
+      selector += `nbt=${selectors.nbt}`;
     }
 
     if (selectors.advancements) {
       selector += "advancements={";
       for (const [key, value] of Object.entries(selectors.advancements)) {
         if (typeof value === "boolean") {
-          selector += `${key}=${value},`;
+          selector += `${key}=${value}`;
           continue;
         }
         selector += `${key}={${Object.entries(value)
           .map(([key, value]) => `${key}=${value}`)
-          .join(",")}},`;
+          .join(",")}}`;
       }
       selector += "}";
     }
 
     if (selectors.predicates) {
       for (const predicate of selectors.predicates) {
-        selector += `predicate=${predicate},`;
+        selector += `predicate=${predicate}`;
       }
     }
 

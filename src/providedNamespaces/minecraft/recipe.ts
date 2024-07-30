@@ -1,1 +1,1 @@
-export * as recipe from "./generated/recipe";
+export * from "./generated/recipe";

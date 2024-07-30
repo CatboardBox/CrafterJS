@@ -1,6 +1,7 @@
-export * from "./predicateDependencies";
+// export * from "./dependencies";
 export * from "./predicateConditions";
 export * from "./predicate";
+export * from "./damageTypePredicate";
 export * from "./effectPredicate";
 export * from "./entityPredicate";
 export * from "./itemPredicate";

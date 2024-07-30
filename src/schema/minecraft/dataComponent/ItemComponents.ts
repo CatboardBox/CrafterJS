@@ -5,12 +5,12 @@ import {
   IBlockStateProperties,
   ICustomData,
   INbt,
-  JsonString,
   RangeInclusive,
   Seed,
   UUIDRef,
 } from "../generic";
 import { IItem, IItemStack } from "../item";
+import JsonText from "../jsonText";
 import {
   IAssetRef,
   IAttributeRef,
@@ -326,7 +326,7 @@ interface IContainerLoot {
 
 export type ICustomModelData = number;
 
-export type ICustomName = JsonString;
+export type ICustomName = JsonText;
 
 export type IDamage = number;
 
@@ -401,7 +401,7 @@ export type IInstrument = {
 
 export type IIntangibleProjectile = Record<string, never>;
 
-export type IItemName = JsonString;
+export type IItemName = JsonText;
 
 export type IJukeboxPlayable = {
   song: IAssetRef;
@@ -418,7 +418,7 @@ export type ILodestoneTracker = {
   tracked?: boolean;
 };
 
-export type ILore = JsonString[];
+export type ILore = JsonText[];
 
 export type IMapColor = number;
 
@@ -549,8 +549,8 @@ export type IUnbreakable = {
 export type IWritableBookContent = {
   pages: (
     | {
-        raw: JsonString;
-        filtered?: JsonString;
+        raw: JsonText;
+        filtered?: JsonText;
       }
     | string
   )[];

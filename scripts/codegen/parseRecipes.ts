@@ -1,12 +1,13 @@
 import * as fs from "fs/promises";
+import { snakeToCamel } from "../Util";
 
 async function parseRecipe(file: string, name: string): Promise<string> {
   const data = await fs.readFile(file, "utf-8");
   name = name.replace(".json", "");
-  return `export const ${name} = new ExistingRecipe("${name}", namespace, ${data});`;
+  return `export const ${snakeToCamel(name)} = new ExistingRecipe("${name}", namespace, ${data});`;
 }
 
-export default async function Main(inputPath: string, outputPath: string) {
+export default async function main(inputPath: string, outputPath: string) {
   const dir = await fs.readdir(`${inputPath}/recipe`);
 
   const promises = dir.map((file) =>

@@ -48,42 +48,56 @@ export interface IEntityPredicate {
     fall_distance?: INumberPredicate;
   };
   periodic_tick?: number;
-  type_specific?: ITypeSpecificEntityPredicate;
-}
-
-//todo format doesnt match with the one found in the vanilla datapack
-interface ITypeSpecificEntityPredicate {
-  player?: IPlayerPredicate;
-  fishing_hook?: {
-    in_open_water?: boolean;
-  };
-  lightning?: {
-    blocks_set_on_fire?: INumberPredicate;
-    entity_struck?: IEntityPredicate;
-  };
-  raider?: {
-    is_captain?: boolean;
-    has_raid?: boolean;
-  };
-  slime?: {
-    size?: INumberPredicate;
-  };
+  type_specific?:
+    | IPlayerPredicate
+    | {
+        type: TypeSpecificEntityPredicate.FishingHook;
+        in_open_water?: boolean;
+      }
+    | {
+        type: TypeSpecificEntityPredicate.Lightning;
+        blocks_set_on_fire?: INumberPredicate;
+        entity_struck?: IEntityPredicate;
+      }
+    | {
+        type: TypeSpecificEntityPredicate.Raider;
+        is_captain?: boolean;
+        has_raid?: boolean;
+      }
+    | {
+        type: TypeSpecificEntityPredicate.Slime;
+        size?: INumberPredicate;
+      }
+      
   // Types with variants
-  cat?: {
-    variant:
-      | ResLocRef[ResourceType.CatVariant]
-      | ResLocRef[ResourceType.CatVariant][]
-      | TagRef[TagType.CatVariant];
-  };
-  frog?: {
-    variant: unknown; //todo
-    // | IRef[ResourceType.FrogVariant]
-    // | IRef[ResourceType.FrogVariant][]
-    // | ITagRef[TagType.FrogVariant];
-  };
-  wolf?: {
-    variant?: unknown; //todo : wolf variant tags not found in the wiki
-  };
+    | {
+        type: TypeSpecificEntityPredicate.Cat;
+        variant:
+          | ResLocRef[ResourceType.CatVariant]
+          | ResLocRef[ResourceType.CatVariant][]
+          | TagRef[TagType.CatVariant];
+      }
+    | {
+        type: TypeSpecificEntityPredicate.Frog;
+        variant: unknown; //todo
+        // | IRef[ResourceType.FrogVariant]
+        // | IRef[ResourceType.FrogVariant][]
+        // | ITagRef[TagType.FrogVariant];
+      }
+    | {
+        type: TypeSpecificEntityPredicate.Wolf;
+        variant?: unknown; //todo : wolf variant tags not found in the wiki
+      };
+}
+export enum TypeSpecificEntityPredicate {
+  Player = "minecraft:player",
+  FishingHook = "minecraft:fishing_hook",
+  Lightning = "minecraft:lightning",
+  Raider = "minecraft:raider",
+  Slime = "minecraft:slime",
+  Cat = "minecraft:cat",
+  Frog = "minecraft:frog",
+  Wolf = "minecraft:wolf",
 }
 
 export interface IDistancePredicate {
