@@ -1,4 +1,5 @@
-import { Advancement, Criteria } from "../../advancements";
+import { Advancement } from "../../advancements/advancement";
+import { AdvancementCondition } from "../../advancements/condition";
 import { EntitySelector } from "../../entitySelector";
 import { CommandFactory } from "../CommandBuilder";
 import { CommandInstance } from "../commandInstance";
@@ -54,8 +55,8 @@ class AdvancementScopeFactory extends CommandFactory {
 
 // Final step to specify criteria for the command.
 class AdvancementCriterionFactory extends CommandFactory {
-  criterion(criterion: Criteria): CommandInstance {
-    return this.commandBuilder.append(criterion.name).toCommandInstance();
+  criterion(criterion: AdvancementCondition): CommandInstance {
+    return this.commandBuilder.append(criterion.id).toCommandInstance();
   }
 }
 

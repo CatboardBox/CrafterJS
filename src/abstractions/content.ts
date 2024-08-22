@@ -80,7 +80,8 @@ export abstract class ContentGenerator<
   /**
    * Skip unused content to reduce file size
    */
-  protected isUsed: boolean = false;
+  protected skip: boolean = true;
+  protected disabled: boolean = false;
 
   constructor({
     type,
@@ -102,12 +103,17 @@ export abstract class ContentGenerator<
   protected validate(): void {}
 
   public get ref(): LocRef {
-    this.isUsed = true;
+    this.skip = false;
     return super.ref;
   }
 
+  public disable(): void {
+    this.disabled = true;
+    this.skip = false;
+  }
+
   protected get constructedData(): DataType {
-    this.isUsed = true;
+    this.skip = false;
     return super.constructedData;
   }
 
@@ -126,11 +132,12 @@ export abstract class ContentGenerator<
     return "json";
   }
   protected compileContent(): string {
+    if (this.disabled) return "";
     // return inspect(this.constructedData, { depth: null, compact: false });
     return JSON.stringify(this.constructedData, null, 2);
   }
   protected build(): void {
-    if (!this.isUsed) {
+    if (this.skip) {
       this.logSkipBuild();
       return;
     }

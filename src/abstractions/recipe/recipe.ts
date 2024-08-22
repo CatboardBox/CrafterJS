@@ -12,7 +12,6 @@ export class Recipe<T extends IRecipeBase> extends ContentGenerator<
   ResLocRef[ResourceType.Recipe],
   T
 > {
-  private deleted = false;
   constructor(params: {
     name: string;
     id?: string;
@@ -29,17 +28,12 @@ export class Recipe<T extends IRecipeBase> extends ContentGenerator<
   }
 
   protected compileContent(): string {
-    if (this.deleted) return "";
+    if (this.disabled) return "";
     if (!hasRecipeBookSupport(this.constructedData))
       return super.compileContent();
     this.constructedData.category = getCategory(this);
     this.constructedData.group = getCategoryGroup(this);
     return super.compileContent();
-  }
-
-  public delete(): void {
-    this.deleted = true;
-    this.isUsed = true;
   }
 }
 

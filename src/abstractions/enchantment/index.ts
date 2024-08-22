@@ -32,7 +32,6 @@ const defaultEnchantment: IEnchantment = {
   },
   max_level: 1,
   slots: [],
-  // exclusive_set: "",
   supported_items: undefined as unknown as IEnchantment["supported_items"],
   weight: 1,
 };
@@ -58,6 +57,17 @@ export class Enchantment extends ContentGenerator<
       translate: this.translationKey,
       fallback: name,
     };
+  }
+
+  public static constructFromRaw(
+    name: string,
+    namespace: Namespace,
+    data: unknown
+  ) {
+    const enchant = new Enchantment({ name, namespace });
+    Object.assign(enchant.constructedData, data);
+    enchant.skip = true;
+    return enchant;
   }
 
   protected validate() {
@@ -111,11 +121,22 @@ export class Enchantment extends ContentGenerator<
       | { ref: IEnchantment["supported_items"] }
       | IEnchantment["supported_items"]
   ) {
-    if (typeof item === "string" || Array.isArray(item)) {
+    if (typeof item === "string" || Array.isArray(item))
       this.constructedData.supported_items = item;
-      return this;
-    }
-    this.constructedData.supported_items = item.ref;
+    else this.constructedData.supported_items = item.ref;
+    return this;
+  }
+
+  public setExclusiveSet(
+    item:
+      | { ref: IEnchantment["exclusive_set"] }
+      | IEnchantment["exclusive_set"]
+      | undefined
+  ) {
+    if (item === undefined) delete this.constructedData.exclusive_set;
+    else if (typeof item === "string" || Array.isArray(item))
+      this.constructedData.exclusive_set = item;
+    else this.constructedData.exclusive_set = item.ref;
     return this;
   }
 
@@ -163,7 +184,6 @@ export class Enchantment extends ContentGenerator<
         : undefined,
     });
     return this;
-    return this;
   }
 
   public damageProtection(
@@ -178,7 +198,6 @@ export class Enchantment extends ContentGenerator<
         ? requirementBuilder(new Check())
         : undefined,
     });
-    return this;
     return this;
   }
 

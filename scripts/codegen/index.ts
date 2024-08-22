@@ -16,10 +16,14 @@ const promises: Array<Promise<unknown>> = [];
 import ParseRecipes from "./parseRecipes";
 promises.push(ParseRecipes(datapackDir, generatedDir));
 
-
 import ParseTags from "./parseTags";
 promises.push(ParseTags(datapackDir, generatedDir));
 
+import ParseEnchantments from "./parseEnchantment";
+promises.push(ParseEnchantments(datapackDir, generatedDir));
+
+import ParseAdvancements from "./parseAdvancements";
+promises.push(ParseAdvancements(datapackDir, generatedDir));
 
 Promise.all(promises).then(() => {
   console.log("Codegen Completed!");

@@ -24,11 +24,16 @@ export class BaseTag<
     });
 
     const namespacePath = this.namespace.namespacePath;
-    this._ref = `#${namespacePath}${this.id}` as TagRef[Type];
+    let refString = `#${namespacePath}`;
+    additionalResourcePath.forEach((path) => {
+      refString += `${path}/`;
+    });
+    refString += `${this.id}`;
+    this._ref = refString as TagRef[Type];
   }
 
   public get ref(): TagRef[Type] {
-    this.isUsed = true;
+    this.skip = false;
     return this._ref;
   }
 
@@ -61,8 +66,7 @@ export class BaseTag<
   protected compileContent(): string {
     this._isBuilt = true;
     this._referencedTags.forEach((tag) => {
-      console.log(tag);
-      tag.isUsed = true;
+      tag.skip = false;
       tag.build();
     });
     return super.compileContent();

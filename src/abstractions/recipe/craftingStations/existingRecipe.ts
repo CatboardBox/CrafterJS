@@ -14,12 +14,4 @@ export class ExistingRecipe extends ContentGenerator<
       data: {},
     });
   }
-
-  public delete(): void {
-    this.isUsed = true;
-  }
-
-  protected compileContent(): string {
-    return "";
-  }
 }

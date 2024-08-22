@@ -4,6 +4,7 @@ import { snakeToCamel, snakeToPascal } from "../Util";
 // spaghetti code :D
 
 async function parseTags(
+  file: string,
   name: string,
   tagType: string,
   depth: string[]
@@ -12,8 +13,11 @@ async function parseTags(
     .splice(2)
     .map((str) => `"${str}"`)
     .join(",");
+  // const data = await fs.readFile(file, "utf-8");
   name = name.replace(".json", "");
-  return `export const ${snakeToCamel(name)} = new BaseTag<TagType.${tagType}, ResourceType.${tagType}>(TagType.${tagType},"${name}", namespace,[${additionalPathData}]);`;
+  return `export const ${snakeToCamel(
+    name
+  )} = new BaseTag<TagType.${tagType}, ResourceType.${tagType}>(TagType.${tagType},"${name}", namespace,[${additionalPathData}]);`;
 }
 
 async function parseTagFolder(
@@ -55,7 +59,7 @@ async function parseTagFolder(
     );
   });
   const filePromises: Promise<string>[] = files.map((file) =>
-    parseTags(file, tagType, [...depth, folderName])
+    parseTags(`${folderPath}/${file}`, file, tagType, [...depth, folderName])
   );
 
   const directoryResults = await Promise.all(directoryPromises);
