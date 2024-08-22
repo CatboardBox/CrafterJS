@@ -1,0 +1,24 @@
+{
+  "name": "crafter-js",
+  "version": "0.0.0-alpha",
+  "description": "A Library for creating Minecraft datapacks",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "codegen": "npx ts-node scripts/codegen/index.ts",
+    "partial-build": "tsc",
+    "build": "npm run codegen && tsc",
+    "lint": "eslint . --ext .ts"
+  },
+  "author": "Catcd",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "@crafter-js/mc-schema": "*",
+    "eslint": "^8.57.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}

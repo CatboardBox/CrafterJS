@@ -1,0 +1,11 @@
+{
+  "name": "@crafter-js/mc-schema",
+  "version": "0.0.0-alpha",
+  "description": "Schema for validating Minecraft datapack format",
+  "types": "src/index.ts",
+  "scripts": {
+    "lint": "eslint . --ext .ts"
+  },
+  "author": "Catcd",
+  "licnpm ense": "MIT"
+}

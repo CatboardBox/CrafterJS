@@ -1,14 +1,14 @@
 {
   "name": "crafter-js",
-  "version": "0.0.0-alpha",
-  "description": "A Library for creating Minecraft datapacks",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "private": true,
   "scripts": {
-    "codegen": "npx ts-node scripts/codegen/index.ts",
-    "partial-build": "tsc",
-    "build": "npm run codegen && tsc && npm run lint",
-    "lint": "eslint . --ext .ts"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "turbo": "^2.0.14"
   },
   "keywords": [
     "minecraft",
@@ -16,14 +16,12 @@
     "typescript",
     "javascript"
   ],
-  "author": "Catcd",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.14.2",
-    "@typescript-eslint/eslint-plugin": "^7.13.0",
-    "@typescript-eslint/parser": "^7.13.0",
-    "eslint": "^8.57.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^4.9.5"
-  }
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.5.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }
